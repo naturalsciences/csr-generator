@@ -1,0 +1,3 @@
+Csr-generator is a small library to create SeaDataNet Cruise Summary Report (CSR) files based on plain old java objects (POJOs).
+
+The POJOs are presented as interfaces, when using this library you must implement these. A reference implementation is available in the test packages, and can be recuperated without problem.

@@ -37,4 +37,8 @@ public interface IPerson {
 
     void _setEmailAddress(String email);
 
+    int hashCode();
+
+    boolean equals(Object obj);
+
 }
