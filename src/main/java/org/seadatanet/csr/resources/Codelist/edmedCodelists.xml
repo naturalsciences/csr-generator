@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<CT_CodelistCatalogue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+   xmlns="http://www.isotc211.org/2005/gmx"
+   xmlns:gmd="http://www.isotc211.org/2005/gmd"
+   
+   xmlns:gco="http://www.isotc211.org/2005/gco"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:gml="http://www.opengis.net/gml"   
+   xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://www.isotc211.org/schemas/2005/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://www.isotc211.org/schemas/2005/gmx/gmx.xsd http://www.isotc211.org/2005/gco http://www.isotc211.org/schemas/2005/gco/gcoBase.xsd">
+   <name>
+      <gco:CharacterString>sdnCodelists</gco:CharacterString>
+   </name>
+   <scope>
+      <gco:CharacterString>Codelists for description of metadata datasets compliant with SeaDataNet 19115:2003 and 19139 profiles</gco:CharacterString>
+   </scope>
+   <fieldOfApplication>
+      <gco:CharacterString>EDMED - European Directory of Marine Environmental Data sets</gco:CharacterString>
+   </fieldOfApplication>
+   <versionNumber>
+      <gco:CharacterString>0.0</gco:CharacterString>
+   </versionNumber>
+   <versionDate>
+      <gco:Date>2012-07-19</gco:Date>
+   </versionDate>
+   <codelistItem>
+      <CodeListDictionary gml:id="SDN_EDMEDCode">
+         <gml:description>European Directory of Marine Environmental Data sets</gml:description>
+         <gml:identifier codeSpace="SeaDataNet">SDN_EDMEDCode</gml:identifier>
+         <codeEntry>
+            <CodeDefinition gml:id="SDN_EDMEDCode_1048108_43">
+               <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMO::43"/>
+               <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMED::1048108_43"/>
+               <gml:description>36 North Project oceanographic data</gml:description>               
+               <gml:identifier codeSpace="SeaDataNet">1048108_43</gml:identifier>
+            </CodeDefinition>
+         </codeEntry>
+         <codeEntry>
+            <CodeDefinition gml:id="SDN_EDMEDCode_18001039_545">
+               <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMO::545"/>
+               <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMED::18001039_545"/>
+               <gml:description>Swedish National &amp; Regional Phytoplankton Database (1983-)</gml:description>               
+               <gml:identifier codeSpace="SeaDataNet">18001039_545</gml:identifier>
+            </CodeDefinition>
+         </codeEntry>
+      </CodeListDictionary>
+   </codelistItem>
+</CT_CodelistCatalogue>

@@ -1,0 +1,71 @@
+<jaxb:bindings xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc" version="2.1">
+  <jaxb:globalBindings generateIsSetMethod="true" fixedAttributeAsConstantProperty="true">
+    <xjc:serializable />
+  </jaxb:globalBindings>
+  <jaxb:bindings schemaLocation="iso19139/gml/datums.xsd">
+    <jaxb:bindings node="//xs:element[@name='ellipsoid']">
+      <jaxb:class name="net.opengis.gml.EllipsoidPropertyType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='Ellipsoid']">
+      <jaxb:class name="net.opengis.gml.EllipsoidType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='primeMeridian']">
+      <jaxb:class name="net.opengis.gml.PrimeMeridianPropertyType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='PrimeMeridian']">
+      <jaxb:class name="net.opengis.gml.PrimeMeridianType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='VerticalDatum']">
+      <jaxb:class name="net.opengis.gml.VerticalDatumType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='EngineeringDatum']">
+      <jaxb:class name="net.opengis.gml.EngineeringDatumType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='ImageDatum']">
+      <jaxb:class name="net.opengis.gml.ImageDatumType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='TemporalDatum']">
+      <jaxb:class name="net.opengis.gml.TemporalDatumType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='GeodeticDatum']">
+      <jaxb:class name="net.opengis.gml.GeodeticDatumType" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="iso19139/gml/coordinateOperations.xsd">
+    <jaxb:bindings node="//xs:element[@name='parameterValue']">
+      <jaxb:class name="net.opengis.gml.AbstractGeneralParameterValuePropertyType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='ParameterValue']">
+      <jaxb:class name="net.opengis.gml.ParameterValueType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='operationParameter']">
+      <jaxb:class name="net.opengis.gml.OperationParameterPropertyType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='OperationParameter']">
+      <jaxb:class name="net.opengis.gml.OperationParameterType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='Conversion']">
+      <jaxb:class name="net.opengis.gml.ConversionType" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="iso19139/gml/coordinateSystems.xsd">
+    <jaxb:bindings node="//xs:element[@name='EllipsoidalCS']">
+      <jaxb:class name="net.opengis.gml.EllipsoidalCSType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='CartesianCS']">
+      <jaxb:class name="net.opengis.gml.CartesianCSType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='VerticalCS']">
+      <jaxb:class name="net.opengis.gml.VerticalCSType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='SphericalCS']">
+      <jaxb:class name="net.opengis.gml.SphericalCSType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='AffineCS']">
+      <jaxb:class name="net.opengis.gml.AffineCSType" />
+    </jaxb:bindings>
+    <jaxb:bindings node="//xs:element[@name='TimeCS']">
+      <jaxb:class name="net.opengis.gml.TimeCSType" />
+    </jaxb:bindings>
+  </jaxb:bindings>
+</jaxb:bindings>

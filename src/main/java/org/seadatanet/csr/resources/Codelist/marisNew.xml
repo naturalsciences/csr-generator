@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CT_CodelistCatalogue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.isotc211.org/2005/gmx" xmlns:gmd="http://www.isotc211.org/2005/gmd"
+    xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:gco="http://www.isotc211.org/2005/gco"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml"
+    xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://www.isotc211.org/schemas/2005/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://www.isotc211.org/schemas/2005/gmx/gmx.xsd http://www.isotc211.org/2005/gco http://www.isotc211.org/schemas/2005/gco/gcoBase.xsd">
+    <name>
+        <gco:CharacterString>sdnCodelists</gco:CharacterString>
+    </name>
+    <scope>
+        <gco:CharacterString>Codelists for description of metadata datasets compliant with SeaDataNet 19115:2003 and 19139 profiles</gco:CharacterString>
+    </scope>
+    <fieldOfApplication>
+        <gco:CharacterString>SDN imported namespace</gco:CharacterString>
+    </fieldOfApplication>
+    <versionNumber>
+        <gco:CharacterString>0.0</gco:CharacterString>
+    </versionNumber>
+    <versionDate>
+        <gco:Date>2012-05-23</gco:Date>
+    </versionDate>
+    <codelistItem>
+        <CodeListDictionary gml:id="SDN_EDMERPCode">
+            <gml:description>European Directory of Marine Environmental Research Projects</gml:description>
+            <gml:identifier codeSpace="SeaDataNet">SDN_EDMERPCode</gml:identifier>
+            <codeEntry>
+                <CodeDefinition gml:id="SDN_EDMERPCode_393">
+                    <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMERP::393"/>
+                    <gml:description>Variation in space and time of cod and other gadoids : the effects of climate and density dependence on popul dynamics</gml:description>
+                    <gml:identifier codeSpace="SeaDataNet">393</gml:identifier>
+                </CodeDefinition>
+            </codeEntry>
+            <codeEntry>
+                <CodeDefinition gml:id="SDN_EDMERPCode_703">
+                    <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMERP::703"/>
+                    <gml:description>Review of Environmental Projects of the Caspian Sea for the Planning of Future Activities</gml:description>
+                    <gml:identifier codeSpace="SeaDataNet">703</gml:identifier>
+                </CodeDefinition>
+            </codeEntry>
+            <!-- ... -->
+            
+        </CodeListDictionary>
+    </codelistItem>
+    
+    <codelistItem>
+        <CodeListDictionary gml:id="SDN_EDMOCode">
+            <gml:description>European Directory of Marine Organisations</gml:description>
+            <gml:identifier codeSpace="SeaDataNet">SDN_EDMOCode</gml:identifier>
+            <codeEntry>
+                <CodeDefinition gml:id="SDN_EDMOCode_1">
+                    <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMO::1"/>
+                    <gml:description>University of Birmingham, Department of Geological Sciences</gml:description>
+
+                    <gml:identifier codeSpace="SeaDataNet">1</gml:identifier>
+                    <gml:name>University of Birmingham, Department of Geological Sciences</gml:name>
+                </CodeDefinition>
+            </codeEntry>
+            <codeEntry>
+                <CodeDefinition gml:id="SDN_EDMOCode_2">
+                    <gml:metaDataProperty about="http://www.seadatanet.org/urnurl/SDN:EDMO::2"/>
+                    <gml:description>University of Cambridge Department of Earth Sciences</gml:description>
+                    <gml:identifier codeSpace="SeaDataNet">2</gml:identifier>
+                    <gml:name>University of Cambridge Department of Earth Sciences</gml:name>
+                </CodeDefinition>
+            </codeEntry>
+            <!-- ... -->
+
+        </CodeListDictionary>
+    </codelistItem>
+</CT_CodelistCatalogue>
