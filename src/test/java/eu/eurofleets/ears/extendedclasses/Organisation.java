@@ -26,12 +26,12 @@ public class Organisation implements IOrganisation {
     private ICountry country;
 
     @Override
-    public ILinkedDataTerm getOrganisationTerm() {
+    public ILinkedDataTerm getTerm() {
         return organisationTerm;
     }
 
     @Override
-    public void setOrganisationTerm(ILinkedDataTerm organisationTerm) {
+    public void setTerm(ILinkedDataTerm organisationTerm) {
         this.organisationTerm = organisationTerm;
     }
 

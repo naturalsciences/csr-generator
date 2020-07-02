@@ -11,6 +11,7 @@ import be.naturalsciences.bmdc.cruise.model.ILinkedDataTerm;
 import be.naturalsciences.bmdc.cruise.model.IOrganisation;
 import be.naturalsciences.bmdc.cruise.model.IPerson;
 import be.naturalsciences.bmdc.cruise.model.IProgram;
+import be.naturalsciences.bmdc.cruise.model.ITool;
 import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_INSPIRE_THEMES_PUBLICATION_DATE;
 import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_INSPIRE_THEMES_THESAURUS_URL;
 import be.naturalsciences.bmdc.metadata.model.IKeyword;
@@ -119,21 +120,18 @@ public class CSRBuilder {
 
     public static Map<String, Class> KEYWORD_TYPES = new HashMap();
 
-    public static String PUBLICATION = "publication";
-    public static String REVISION = "revision";
-
     public static Map<String, String> CODE_SPACES_URLS = new HashMap<>();
     public static Map<Role, CIRoleCodePropertyType> ROLES = new HashMap<>();
     public static MDKeywordsPropertyType OCEANOGRAPHIC_GEOGRAPHIC_FEATURES;
 
-    public static Thesaurus THESAURUS_GEMET = new Thesaurus("GEMET - INSPIRE themes, version 1.0", null, GEMET_INSPIRE_THEMES_THESAURUS_URL, GEMET_INSPIRE_THEMES_PUBLICATION_DATE, null, PUBLICATION);
-    public static Thesaurus THESAURUS_C38 = new Thesaurus("SeaDataNet Ports Gazetteer", "C38", "", new GregorianCalendar(2017, Calendar.DECEMBER, 5).getTime(), "61", REVISION);
-    public static Thesaurus THESAURUS_C17 = new Thesaurus("ICES Platform Codes", "C17", "", new GregorianCalendar(2018, Calendar.JUNE, 9).getTime(), "748", REVISION);
-    public static Thesaurus THESAURUS_L06 = new Thesaurus("SeaVoX Platform Categories", "L06", "", new GregorianCalendar(2018, Calendar.MARCH, 14).getTime(), "14", REVISION);
-    public static Thesaurus THESAURUS_EDMERP = new Thesaurus("European Directory of Marine Environmental Research Projects", "EDMERP", "", new GregorianCalendar(2013, Calendar.APRIL, 16).getTime(), null, REVISION);
-    public static Thesaurus THESAURUS_C19 = new Thesaurus("SeaVoX salt and fresh water body gazetteer", "C19", "", new GregorianCalendar(2018, Calendar.FEBRUARY, 21).getTime(), "17", REVISION);
-    public static Thesaurus THESAURUS_P02 = new Thesaurus("SeaDataNet Parameter Discovery Vocabulary", "P02", "", new GregorianCalendar(2018, Calendar.APRIL, 5).getTime(), "108", REVISION);
-    public static Thesaurus THESAURUS_L05 = new Thesaurus("SeaDataNet device categories", "L05", "", new GregorianCalendar(2018, Calendar.APRIL, 7).getTime(), "64", REVISION);
+    public static Thesaurus THESAURUS_GEMET = new Thesaurus("GEMET - INSPIRE themes, version 1.0", null, GEMET_INSPIRE_THEMES_THESAURUS_URL, GEMET_INSPIRE_THEMES_PUBLICATION_DATE, null, Thesaurus.PUBLICATION);
+    public static Thesaurus THESAURUS_C38 = new Thesaurus("SeaDataNet Ports Gazetteer", "C38", "", new GregorianCalendar(2017, Calendar.DECEMBER, 5).getTime(), "61", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_C17 = new Thesaurus("ICES Platform Codes", "C17", "", new GregorianCalendar(2018, Calendar.JUNE, 9).getTime(), "748", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_L06 = new Thesaurus("SeaVoX Platform Categories", "L06", "", new GregorianCalendar(2018, Calendar.MARCH, 14).getTime(), "14", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_EDMERP = new Thesaurus("European Directory of Marine Environmental Research Projects", "EDMERP", "", new GregorianCalendar(2013, Calendar.APRIL, 16).getTime(), null, Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_C19 = new Thesaurus("SeaVoX salt and fresh water body gazetteer", "C19", "", new GregorianCalendar(2018, Calendar.FEBRUARY, 21).getTime(), "17", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_P02 = new Thesaurus("SeaDataNet Parameter Discovery Vocabulary", "P02", "", new GregorianCalendar(2018, Calendar.APRIL, 5).getTime(), "108", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_L05 = new Thesaurus("SeaDataNet device categories", "L05", "", new GregorianCalendar(2018, Calendar.APRIL, 7).getTime(), "64", Thesaurus.REVISION);
 
     private ICruise cruise;
 
@@ -362,16 +360,16 @@ public class CSRBuilder {
         IOrganisation organisation = person.getOrganisation();
         String firstName = person.getFirstName();
         String lastName = person.getLastName();
-        String organisationName = organisation.getOrganisationTerm().getName();
-        String organisationIdentifier = organisation.getOrganisationTerm().getInnerMostIdentifier();
+        String organisationName = organisation.getTerm().getName();
+        String organisationIdentifier = ILinkedDataTerm.getIdentifierFromNERCorSDNUrl(organisation.getTerm().getIdentifier());
         String phoneNumber = person._getPhoneNumber() != null ? person._getPhoneNumber() : organisation._getPhoneNumber();
         String faxNumber = person._getFaxNumber() != null ? person._getFaxNumber() : organisation._getFaxNumber();
         String email = person._getEmailAddress() != null ? person._getEmailAddress() : organisation._getEmailAddress();
         String deliveryPoint = organisation._getDeliveryPoint();
         String city = organisation._getCity();
         String postalCode = organisation._getPostalcode();
-        String country = organisation._getCountry().getCountryTerm().getName();
-        String sdnCountryCode = organisation._getCountry().getCountryTerm().getInnerMostIdentifier();
+        String country = organisation._getCountry().getTerm().getName();
+        String sdnCountryCode = ILinkedDataTerm.getIdentifierFromNERCorSDNUrl(organisation._getCountry().getTerm().getIdentifier());
         String website = organisation._getWebsite();
 
         CIRoleCodePropertyType role = null;
@@ -457,7 +455,7 @@ public class CSRBuilder {
         return "urn:SDN:CSR:LOCAL:" + cruise.getIdentifier();
     }
 
-    public <S extends SDNKeyword> MDKeywordsPropertyTypeSDN getSDNKeyword(Collection<ILinkedDataTerm> keywords, String type, Thesaurus thesaurus) {
+    public <S extends SDNKeyword> MDKeywordsPropertyTypeSDN getSDNKeyword(Collection<? extends ILinkedDataTerm> keywords, String type, Thesaurus thesaurus) {
         MDKeywordsPropertyTypeSDN individualKeywordProp = null;
         if (keywords != null && !keywords.isEmpty()) {
 
@@ -495,7 +493,7 @@ public class CSRBuilder {
                         } else {
                             realm = REALM_SDN_CDI_CSR;
                         }
-                        sdnKeyword.set(getCodeListValue(realm, codeListHashTag, keyword.getInnerMostIdentifier(), keyword.getName()));
+                        sdnKeyword.set(getCodeListValue(realm, codeListHashTag, ILinkedDataTerm.getIdentifierFromNERCorSDNUrl(keyword.getIdentifier()), keyword.getName()));
                         individualKeyword.getKeyword().add(sdnKeyword);
                         individualKeywordProp.setMDKeywords(individualKeyword);
                     }
@@ -621,7 +619,7 @@ public class CSRBuilder {
         JAXBElement<SDNDataIdentificationType> SDNDataIdentificationJaxb = sdn.createSDNDataIdentification(sdnId);
 
         id.setAbstractMDIdentification(SDNDataIdentificationJaxb);
-        
+
         sdnId.setCitation(getCruiseCitation(cruise));
         CharacterStringPropertyType cs = getCS(cruise.getObjectives());
         sdnId.setAbstract(cs);
@@ -645,35 +643,39 @@ public class CSRBuilder {
         /*Dataset Keywords*/
         sdnId.getDescriptiveKeywords().add(OCEANOGRAPHIC_GEOGRAPHIC_FEATURES);
 
-        List<ILinkedDataTerm> departureHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour().getHarbourTerm()});
+        List<ILinkedDataTerm> departureHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour().getTerm()});
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureHarbours, "departure_place", THESAURUS_C38));
 
-        List<ILinkedDataTerm> arrivalHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour().getHarbourTerm()});
+        List<ILinkedDataTerm> arrivalHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour().getTerm()});
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalHarbours, "arrival_place", THESAURUS_C38));
 
-        List<ILinkedDataTerm> departureCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour()._getCountry().getCountryTerm()});
+        List<ILinkedDataTerm> departureCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour()._getCountry().getTerm()});
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureCountries, "departure_country", THESAURUS_C38));
 
-        List<ILinkedDataTerm> arrivalCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour()._getCountry().getCountryTerm()});
+        List<ILinkedDataTerm> arrivalCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour()._getCountry().getTerm()});
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalCountries, "arrival_country", THESAURUS_C38));
 
-        List<ILinkedDataTerm> platforms = Arrays.asList(new ILinkedDataTerm[]{cruise.getPlatform().getPlatformTerm()});
+        List<ILinkedDataTerm> platforms = Arrays.asList(new ILinkedDataTerm[]{cruise.getPlatform().getTerm()});
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platforms, "platform", THESAURUS_C17));
 
         List<ILinkedDataTerm> platformClasses = Arrays.asList(new ILinkedDataTerm[]{cruise.getPlatform().getPlatformClass()});
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platformClasses, "platform_class", THESAURUS_L06));
 
-        Collection<ILinkedDataTerm> projects = cruise.getProjectTerms();
+        Collection<? extends ILinkedDataTerm> projects = cruise.getProjectTerms();
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(projects, "project", THESAURUS_EDMERP));
 
-        Collection<ILinkedDataTerm> seaAreas = cruise.getSeaAreaTerms();
+        Collection<? extends ILinkedDataTerm> seaAreas = cruise.getSeaAreaTerms();
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(seaAreas, "place", THESAURUS_C19));
 
-        Collection<ILinkedDataTerm> parameters = cruise.getP02();
+        Collection<? extends ILinkedDataTerm> parameters = cruise.getP02();
         sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(parameters, "parameter", THESAURUS_P02));
 
-        Collection<ILinkedDataTerm> instruments = cruise.getInstruments();
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(instruments, "instrument", THESAURUS_L05));
+        Collection<? extends ITool> instruments = cruise.getInstruments();
+        Collection<ILinkedDataTerm> instrumentTerms= new ArrayList<>();
+        for (ITool instrument : instruments) {
+            instrumentTerms.add(instrument.getTerm());
+        }
+        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(instrumentTerms, "instrument", THESAURUS_L05));
 
         /*Dataset Constraints*/
         sdnId.getResourceConstraints().add(getUseLimitation("Not applicable"));
@@ -693,7 +695,7 @@ public class CSRBuilder {
         MDTopicCategoryCodePropertyType topicProp = new MDTopicCategoryCodePropertyType();
         topicProp.setMDTopicCategoryCode(MDTopicCategoryCodeType.OCEANS);
         sdnId.getTopicCategory().add(topicProp);
-        
+
         return id;
     }
 
@@ -734,7 +736,7 @@ public class CSRBuilder {
         citation.getIdentifier().add(getIdentifier(getCSRIdentifier()));
         citation.getCitedResponsibleParty().add(getResponsibleParty(cruise.getPlatform().getVesselOperator(), Role.ORIGINATOR));
 
-        citation.getDate().add(getDate(new Date(), REVISION));
+        citation.getDate().add(getDate(new Date(), Thesaurus.REVISION));
         return citationProp;
     }
 

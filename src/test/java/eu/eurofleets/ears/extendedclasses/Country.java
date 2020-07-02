@@ -17,12 +17,12 @@ public class Country implements ICountry {
     private ILinkedDataTerm countryTerm;
 
     @Override
-    public ILinkedDataTerm getCountryTerm() {
+    public ILinkedDataTerm getTerm() {
         return countryTerm;
     }
 
     @Override
-    public void setCountryTerm(ILinkedDataTerm country) {
+    public void setTerm(ILinkedDataTerm country) {
         this.countryTerm = country;
     }
 

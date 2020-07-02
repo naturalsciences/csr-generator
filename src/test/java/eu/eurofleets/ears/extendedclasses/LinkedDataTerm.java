@@ -15,7 +15,10 @@ import java.util.regex.Pattern;
 public class LinkedDataTerm implements ILinkedDataTerm {
 
     private String identifier;  //an identifier in an external vocabulary, i.e. the EARS ontology or the BODC Tool list L22 (can only be url)
+    private String transitiveIdentifier;  //an identifier in an external vocabulary, i.e. the EARS ontology or the BODC Tool list L22 (can only be url)
     private String name;
+    private String transitiveUrn;
+    private String urn;
 
     @Override
     public String getIdentifier() {
@@ -42,24 +45,47 @@ public class LinkedDataTerm implements ILinkedDataTerm {
         this.name = name;
     }
 
-    public final static Pattern URN_PATTERN = Pattern.compile(
-            "^[a-z0-9][a-z0-9-]{0,31}:([a-z0-9()+,\\-.:=@;$_!*']|%[0-9a-f]{2})+$",
-            Pattern.CASE_INSENSITIVE);
-
-    public final static Pattern URL_PATTERN = Pattern.compile(
-            "(https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,})",
-            Pattern.CASE_INSENSITIVE);
+    @Override
+    public String getTransitiveIdentifier() {
+        return transitiveIdentifier != null ? transitiveIdentifier : identifier;
+    }
 
     @Override
-    public String getInnerMostIdentifier() {
-        if (URN_PATTERN.matcher(identifier).matches()) {
-            String[] split = identifier.split(":");
-            return split[split.length - 1];
-        } else if (URL_PATTERN.matcher(identifier).matches()) {
-            String[] split = identifier.split("/");
-            return split[split.length - 1];
-        } else {
-            return identifier;
-        }
+    public void setTransitiveIdentifier(String transitiveIdentifier) {
+        this.transitiveIdentifier = transitiveIdentifier;
+    }
+
+    @Override
+    public String getUrn() {
+        return urn;
+    }
+
+    @Override
+    public void setUrn(String urn) {
+        this.urn = urn;
+    }
+
+    @Override
+    public String getTransitiveUrn() {
+        return transitiveUrn;
+    }
+
+    @Override
+    public void setTransitiveUrn(String transitiveUrn) {
+        this.transitiveUrn = transitiveUrn;
+    }
+
+    @Override
+    public ILinkedDataTerm getTerm() {
+        return this;
+    }
+
+    @Override
+    public void setTerm(ILinkedDataTerm term) {
+        this.identifier = term.getIdentifier();
+        this.urn = term.getUrn();
+        this.name = term.getName();
+        this.transitiveIdentifier = term.getTransitiveIdentifier();
+        this.transitiveUrn = term.getTransitiveUrn();
     }
 }

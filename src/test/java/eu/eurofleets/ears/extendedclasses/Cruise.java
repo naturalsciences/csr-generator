@@ -10,6 +10,7 @@ import be.naturalsciences.bmdc.cruise.model.IPlatform;
 import be.naturalsciences.bmdc.cruise.model.IProgram;
 import be.naturalsciences.bmdc.cruise.model.IProject;
 import be.naturalsciences.bmdc.cruise.model.ISeaArea;
+import be.naturalsciences.bmdc.cruise.model.ITool;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,10 +40,10 @@ public class Cruise implements ICruise {
     private Collection<? extends IProgram> programs;
     private IPlatform platform;
     private String objectives;
-    private String isCancelled; //additional field so that cancelled cruises don't need to be deleted from the database. They just don't show up in EARS.
-    private Collection<ILinkedDataTerm> P02;
+    private boolean isCancelled; //additional field so that cancelled cruises don't need to be deleted from the database. They just don't show up in EARS.
+    private Collection<? extends ILinkedDataTerm> P02;
     private String name;
-    private Collection<IEvent> events;
+    private Collection<? extends IEvent> events;
 
     @Override
     public String getIdentifier() {
@@ -152,6 +153,7 @@ public class Cruise implements ICruise {
     @Override
     public void setPlatform(IPlatform platform) {
         this.platform = platform;
+        platform.addCruise(this);
     }
 
     @Override
@@ -165,23 +167,13 @@ public class Cruise implements ICruise {
     }
 
     @Override
-    public String getIsCancelled() {
+    public boolean getIsCancelled() {
         return isCancelled;
     }
 
     @Override
-    public void setIsCancelled(String isCancelled) {
+    public void setIsCancelled(boolean isCancelled) {
         this.isCancelled = isCancelled;
-    }
-
-    @Override
-    public Collection<ILinkedDataTerm> getP02() {
-        return P02;
-    }
-
-    @Override
-    public void setP02(Collection<ILinkedDataTerm> P02) {
-        this.P02 = P02;
     }
 
     @Override
@@ -195,12 +187,22 @@ public class Cruise implements ICruise {
     }
 
     @Override
-    public Collection<IEvent> getEvents() {
+    public Collection<? extends ILinkedDataTerm> getP02() {
+        return P02;
+    }
+
+    @Override
+    public void setP02(Collection<? extends ILinkedDataTerm> P02) {
+        this.P02 = P02;
+    }
+
+    @Override
+    public Collection<? extends IEvent> getEvents() {
         return events;
     }
 
     @Override
-    public void setEvents(Collection<IEvent> events) {
+    public void setEvents(Collection<? extends IEvent> events) {
         this.events = events;
     }
 
@@ -211,7 +213,7 @@ public class Cruise implements ICruise {
             for (IProgram p : programs) {
                 if (p.getProjects() != null) {
                     for (IProject pr : p.getProjects()) {
-                        r.add(pr.getProjectTerm());
+                        r.add(pr.getTerm());
                     }
                 }
             }
@@ -224,8 +226,8 @@ public class Cruise implements ICruise {
         Collection<ILinkedDataTerm> r = new ArrayList<>();
         if (seaAreas != null) {
             for (ISeaArea a : seaAreas) {
-                if (a.getSeaAreaTerm() != null) {
-                    r.add(a.getSeaAreaTerm());
+                if (a.getTerm() != null) {
+                    r.add(a.getTerm());
                 }
             }
         }
@@ -233,7 +235,7 @@ public class Cruise implements ICruise {
     }
 
     @Override
-    public Collection<ILinkedDataTerm> getInstruments() {
+    public Set<ILinkedDataTerm> getInstrumentTypes() {
         Set<ILinkedDataTerm> toolCategories = new HashSet();
         if (events != null) {
             for (IEvent event : events) {
@@ -241,6 +243,17 @@ public class Cruise implements ICruise {
             }
         }
         return toolCategories;
+    }
+
+    @Override
+    public Set<? extends ITool> getInstruments() {
+        Set<ITool> tools = new HashSet();
+        if (events != null) {
+            for (IEvent event : events) {
+                tools.add(event.getTool());
+            }
+        }
+        return tools;
     }
 
 }

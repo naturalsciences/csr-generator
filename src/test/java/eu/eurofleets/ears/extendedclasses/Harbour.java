@@ -24,12 +24,12 @@ public class Harbour implements IHarbour {
     }
 
     @Override
-    public ILinkedDataTerm getHarbourTerm() {
+    public ILinkedDataTerm getTerm() {
         return this.harbourTerm;
     }
 
     @Override
-    public void setHarbourTerm(ILinkedDataTerm harbour) {
+    public void setTerm(ILinkedDataTerm harbour) {
         harbourTerm = harbour;
     }
 

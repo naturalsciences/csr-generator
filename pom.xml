@@ -22,6 +22,52 @@
             <groupId>be.naturalsciences.bmdc.metadata</groupId>
             <artifactId>MetadataGenerator</artifactId>
             <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>net.sf.trove4j</groupId>
+                    <artifactId>trove4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.geotoolkit</groupId>
+                    <artifactId>geotk-xml-gml</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>be.naturalsciences.bmdc</groupId>
+                    <artifactId>bmdc-utils</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.httpcomponents</groupId>
+                    <artifactId>httpclient</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.rometools</groupId>
+                    <artifactId>rome</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.geotools</groupId>
+                    <artifactId>gt-metadata</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.rauschig</groupId>
+                    <artifactId>jarchivelib</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>be.naturalsciences.bmdc</groupId>
+                    <artifactId>datacite-demo</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.xml.bind</groupId>
+                    <artifactId>jaxb-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -40,6 +86,17 @@
                     <artifactId>selenium-remote-driver</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.7</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>be.naturalsciences.bmdc</groupId>
+            <artifactId>cruise-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <properties>

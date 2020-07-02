@@ -8,15 +8,15 @@ import be.naturalsciences.bmdc.cruise.model.IProperty;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author thomas
  */
 public class Property implements IProperty {
 
-    private ILinkedDataTerm key;
+     private ILinkedDataTerm key;
     private String value;
+    private String uom;
 
     @Override
     public ILinkedDataTerm getKey() {
@@ -37,6 +37,24 @@ public class Property implements IProperty {
     public void setValue(String value) {
         this.value = value;
     }
-    
-    
+
+    @Override
+    public String getUom() {
+        return uom;
+    }
+
+    @Override
+    public final void setUom(String uom) {
+        if ("".equals(uom)) {
+            uom = null;
+        }
+        this.uom = uom;
+    }
+
+    public Property(ILinkedDataTerm key, String value, String uom) {
+        this.key = key;
+        this.value = value;
+        setUom(uom);
+    }
+
 }

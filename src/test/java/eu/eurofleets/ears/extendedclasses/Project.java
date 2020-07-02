@@ -21,12 +21,12 @@ public class Project implements IProject {
     }
 
     @Override
-    public ILinkedDataTerm getProjectTerm() {
+    public ILinkedDataTerm getTerm() {
         return projectTerm;
     }
 
     @Override
-    public void setProjectTerm(ILinkedDataTerm projectTerm) {
+    public void setTerm(ILinkedDataTerm projectTerm) {
         this.projectTerm = projectTerm;
     }
 }

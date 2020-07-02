@@ -7,6 +7,7 @@ import be.naturalsciences.bmdc.cruise.model.IProgram;
 import be.naturalsciences.bmdc.cruise.model.IProperty;
 import be.naturalsciences.bmdc.cruise.model.ITool;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
 /*
@@ -32,16 +33,6 @@ public abstract class Event implements IEvent {
     private ILinkedDataTerm action;
     private Collection<? extends IProperty> properties;
     private IProgram program;
-
-    @Override
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Override
     public String getIdentifier() {
@@ -151,6 +142,11 @@ public abstract class Event implements IEvent {
     @Override
     public void setProgram(IProgram program) {
         this.program = program;
+    }
+
+    @Override
+    public String toString() {
+        return tool.getTerm().getName() + " " + process.getName() + " " + action.getName() + " at " + timeStamp.format(DateTimeFormatter.ISO_INSTANT);
     }
 
 }

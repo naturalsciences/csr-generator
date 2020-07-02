@@ -19,7 +19,7 @@ import java.util.Collection;
 public class Program implements IProgram {
 
     private String identifier;
-    private int id;
+    private Long id;
     private Collection<? extends ICruise> cruises;
     private Collection<? extends IPerson> principalInvestigators;
     private String description;
@@ -46,12 +46,12 @@ public class Program implements IProgram {
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

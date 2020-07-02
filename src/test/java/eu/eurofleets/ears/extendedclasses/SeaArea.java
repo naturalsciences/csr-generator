@@ -21,12 +21,12 @@ public class SeaArea implements ISeaArea {
     }
 
     @Override
-    public ILinkedDataTerm getSeaAreaTerm() {
+    public ILinkedDataTerm getTerm() {
         return this.seaAreaTerm;
     }
 
     @Override
-    public void setSeaAreaTerm(ILinkedDataTerm seaAreaTerm) {
+    public void setTerm(ILinkedDataTerm seaAreaTerm) {
         this.seaAreaTerm = seaAreaTerm;
     }
 
