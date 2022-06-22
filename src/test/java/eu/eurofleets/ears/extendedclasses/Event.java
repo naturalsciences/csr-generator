@@ -3,6 +3,7 @@ package eu.eurofleets.ears.extendedclasses;
 import be.naturalsciences.bmdc.cruise.model.IEvent;
 import be.naturalsciences.bmdc.cruise.model.ILinkedDataTerm;
 import be.naturalsciences.bmdc.cruise.model.IPerson;
+import be.naturalsciences.bmdc.cruise.model.IPlatform;
 import be.naturalsciences.bmdc.cruise.model.IProgram;
 import be.naturalsciences.bmdc.cruise.model.IProperty;
 import be.naturalsciences.bmdc.cruise.model.ITool;
@@ -33,6 +34,7 @@ public abstract class Event implements IEvent {
     private ILinkedDataTerm action;
     private Collection<? extends IProperty> properties;
     private IProgram program;
+    private IPlatform platform;
 
     @Override
     public String getIdentifier() {
@@ -142,6 +144,46 @@ public abstract class Event implements IEvent {
     @Override
     public void setProgram(IProgram program) {
         this.program = program;
+    }
+
+    @Override
+    public IPlatform getPlatform() {
+        return this.platform;
+    }
+
+    @Override
+    public void setPlatform(IPlatform platform) {
+        this.platform = platform;
+    }
+
+    @Override
+    public String getLabel() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setLabel(String label) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getDescription() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setDescription(String description) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getStation() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setStation(String description) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

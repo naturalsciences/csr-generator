@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
-import org.seadatanet.csr.org.isotc211._2005.gco.CharacterStringPropertyType;
 
 /**
  * <p>

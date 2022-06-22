@@ -1,6 +1,5 @@
 package eu.eurofleets.ears.extendedclasses;
 
-
 import be.naturalsciences.bmdc.cruise.model.ICruise;
 import be.naturalsciences.bmdc.cruise.model.IPerson;
 import be.naturalsciences.bmdc.cruise.model.IProgram;
@@ -24,6 +23,8 @@ public class Program implements IProgram {
     private Collection<? extends IPerson> principalInvestigators;
     private String description;
     private Collection<? extends IProject> projects;
+    private String name;
+    private String sampling;
 
     public Program(String identifier, Collection<? extends ICruise> cruises, Collection<? extends IPerson> principalInvestigators, String description, Collection<? extends IProject> projects) {
         this.identifier = identifier;
@@ -33,8 +34,6 @@ public class Program implements IProgram {
         this.projects = projects;
     }
 
-    
-    
     @Override
     public String getIdentifier() {
         return identifier;
@@ -93,5 +92,25 @@ public class Program implements IProgram {
     @Override
     public void setProjects(Collection<? extends IProject> projects) {
         this.projects = projects;
+    }
+
+    @Override
+    public String getSampling() {
+        return this.sampling;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void setSampling(String sampling) {
+        this.sampling = sampling;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }

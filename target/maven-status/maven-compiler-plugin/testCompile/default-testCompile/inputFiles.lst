@@ -1,6 +1,6 @@
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Tool.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/LinkedDataTerm.java
-/home/thomas/NetBeansProjects/CsrGenerator/src/test/java/be/naturalsciences/bmdc/csrgenerator/CSRPrinterTest.java
+/home/thomas/NetBeansProjects/CsrGenerator/src/test/java/be/naturalsciences/bmdc/cruise/csr/CSRBuilderTest.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Project.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Harbour.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Cruise.java
@@ -8,7 +8,9 @@
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/License.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Person.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Program.java
+/home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Coordinate.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Deployment.java
+/home/thomas/NetBeansProjects/CsrGenerator/src/test/java/be/naturalsciences/bmdc/cruise/csr/CSRPrinterTest.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Organisation.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Country.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/test/java/eu/eurofleets/ears/extendedclasses/Property.java

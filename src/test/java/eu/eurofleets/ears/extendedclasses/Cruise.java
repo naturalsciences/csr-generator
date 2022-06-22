@@ -1,5 +1,6 @@
 package eu.eurofleets.ears.extendedclasses;
 
+import be.naturalsciences.bmdc.cruise.model.ICoordinate;
 import be.naturalsciences.bmdc.cruise.model.ICruise;
 import be.naturalsciences.bmdc.cruise.model.IEvent;
 import be.naturalsciences.bmdc.cruise.model.IHarbour;
@@ -15,6 +16,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /*
@@ -44,6 +46,17 @@ public class Cruise implements ICruise {
     private Collection<? extends ILinkedDataTerm> P02;
     private String name;
     private Collection<? extends IEvent> events;
+    private List<Coordinate> track;
+    private String dataUrl;
+    private String trackGmlUrl;
+    private String trackImageUrl;
+    private String planningUrl;
+    private String finalReportUrl;
+    private double southBoundLatitude;
+    private double northBoundLatitude;
+    private double eastBoundLongitude;
+    private double westBoundLongitude;
+    private String purpose;
 
     @Override
     public String getIdentifier() {
@@ -55,12 +68,10 @@ public class Cruise implements ICruise {
         this.identifier = identifier;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }
@@ -254,6 +265,117 @@ public class Cruise implements ICruise {
             }
         }
         return tools;
+    }
+
+    @Override
+    public Collection<? extends ICoordinate> getTrack() {
+        return this.track;
+    }
+
+    @Override
+    public void setTrack(Collection<? extends ICoordinate> coordinates) {
+        this.track = (List<Coordinate>) coordinates;
+    }
+    
+    @Override
+       public String getFinalReportUrl() {
+        return finalReportUrl;
+    }
+
+    @Override
+    public void setFinalReportUrl(String finalReportUrl) {
+        this.finalReportUrl = finalReportUrl;
+    }
+
+    @Override
+    public String getPlanningUrl() {
+        return planningUrl;
+    }
+
+    @Override
+    public void setPlanningUrl(String planningUrl) {
+        this.planningUrl = planningUrl;
+    }
+
+    @Override
+    public String getTrackImageUrl() {
+        return trackImageUrl;
+    }
+
+    @Override
+    public void setTrackImageUrl(String trackImageUrl) {
+        this.trackImageUrl = trackImageUrl;
+    }
+
+    @Override
+    public String getTrackGmlUrl() {
+        return trackGmlUrl;
+    }
+
+    @Override
+    public void setTrackGmlUrl(String trackGmlUrl) {
+        this.trackGmlUrl = trackGmlUrl;
+    }
+
+    @Override
+    public String getDataUrl() {
+        return dataUrl;
+    }
+
+    @Override
+    public void setDataUrl(String dataUrl) {
+        this.dataUrl = dataUrl;
+    }
+    
+    
+    @Override
+    public void setSouthBoundLatitude(double y) {
+        this.southBoundLatitude = y;
+    }
+
+    @Override
+    public void setNorthBoundLatitude(double y) {
+        this.northBoundLatitude = y;
+    }
+
+    @Override
+    public void setWestBoundLongitude(double x) {
+        this.westBoundLongitude = x;
+    }
+
+    @Override
+    public void setEastBoundLongitude(double x) {
+        this.eastBoundLongitude = x;
+    }
+
+    @Override
+    public double getWestBoundLongitude() {
+        return westBoundLongitude;
+    }
+
+    @Override
+    public double getEastBoundLongitude() {
+        return eastBoundLongitude;
+    }
+
+    @Override
+    public double getNorthBoundLatitude() {
+        return northBoundLatitude;
+    }
+
+    @Override
+    public double getSouthBoundLatitude() {
+        return southBoundLatitude;
+    }
+
+    @Override
+    public String getPurpose() {
+        return purpose;
+    }
+
+    @Override
+    public void setPurpose(String purpose) {
+       this.purpose=purpose;
     }
 
 }

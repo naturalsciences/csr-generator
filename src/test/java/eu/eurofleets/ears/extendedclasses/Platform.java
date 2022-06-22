@@ -26,6 +26,7 @@ public class Platform implements IPlatform {
     private ILinkedDataTerm platformClass; //an identifier in an external vocabulary, e.g. L06 (can be urn or url)
     private IOrganisation vesselOperator;
     private Collection<Cruise> cruises;
+    private Collection<? extends IEvent> events;
 
     public Platform(ILinkedDataTerm platformTerm, ILinkedDataTerm platformClass, IOrganisation vesselOperator) {
         this.platformTerm = platformTerm;
@@ -67,9 +68,9 @@ public class Platform implements IPlatform {
     @Override
     public Set<? extends ITool> getInstruments() {
         Set<ITool> tools = new HashSet();
-        if (cruises != null) {
-            for (ICruise cruise : cruises) {
-                tools.addAll(cruise.getInstruments());
+        if (events != null) {
+            for (IEvent event : events) {
+                tools.add(event.getTool());
             }
         }
         return tools;
@@ -87,13 +88,7 @@ public class Platform implements IPlatform {
 
     @Override
     public Collection<? extends IEvent> getEvents() {
-        Set<IEvent> events = new HashSet();
-        if (cruises != null) {
-            for (ICruise cruise : cruises) {
-                events.addAll(cruise.getEvents());
-            }
-        }
-        return events;
+        return this.events;
     }
 
 }

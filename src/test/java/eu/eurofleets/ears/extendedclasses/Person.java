@@ -83,12 +83,12 @@ public class Person implements IPerson {
     }
 
     @Override
-    public String _getEmailAddress() {
+    public String getEmail() {
         return email;
     }
 
     @Override
-    public void _setEmailAddress(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -125,4 +125,8 @@ public class Person implements IPerson {
         return true;
     }
 
+    @Override
+    public String getFirstNameLastName() {
+        return firstName+" "+lastName;
+    }
 }

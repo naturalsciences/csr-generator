@@ -59,8 +59,8 @@ public class MDConstraintsPropertyType
      * 
      * 
      */
-    @XmlAttribute(name = "type", namespace = "http://www.w3.org/1999/xlink")
-    public final static String TYPE = "simple";
+    //@XmlAttribute(name = "type", namespace = "http://www.w3.org/1999/xlink")
+    //public final static String TYPE = "simple";
     @XmlAttribute(name = "href", namespace = "http://www.w3.org/1999/xlink")
     @XmlSchemaType(name = "anyURI")
     protected String href;

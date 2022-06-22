@@ -633,6 +633,7 @@
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/net/opengis/gml/PolygonType.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/net/opengis/gml/TemporalCRSType.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/net/opengis/gml/CylindricalCSType.java
+/home/thomas/NetBeansProjects/CsrGenerator/src/main/java/be/naturalsciences/bmdc/cruise/csr/CSRObjective.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/org/isotc211/_2005/gmx/CTCRSPropertyType.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/net/opengis/gml/EnvelopeWithTimePeriodType.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/org/isotc211/_2005/gmd/CIOnLineFunctionCodePropertyType.java
@@ -831,6 +832,7 @@
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/org/isotc211/_2005/gmx/MLTransformationPropertyType.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/org/isotc211/_2005/gmx/MXDataFileType.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/net/opengis/gml/TimeInstantPropertyType.java
+/home/thomas/NetBeansProjects/CsrGenerator/src/main/java/be/naturalsciences/bmdc/cruise/csr/IllegalCSRArgumentException.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/org/isotc211/_2005/gsr/ObjectFactory.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/net/opengis/gml/TimeClockType.java
 /home/thomas/NetBeansProjects/CsrGenerator/src/main/java/org/seadatanet/csr/org/isotc211/_2005/gmd/DSAssociationType.java

@@ -1,7 +1,7 @@
 package eu.eurofleets.ears.extendedclasses;
 
 import be.naturalsciences.bmdc.cruise.model.ILinkedDataTerm;
-import java.util.regex.Pattern;
+import java.util.Objects;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -40,9 +40,10 @@ public class LinkedDataTerm implements ILinkedDataTerm {
         this.name = name;
     }
 
-    public LinkedDataTerm(String identifier, String name) {
+    public LinkedDataTerm(String identifier, String name, String urn) {
         this.identifier = identifier;
         this.name = name;
+        this.urn = urn;
     }
 
     @Override
@@ -88,4 +89,29 @@ public class LinkedDataTerm implements ILinkedDataTerm {
         this.transitiveIdentifier = term.getTransitiveIdentifier();
         this.transitiveUrn = term.getTransitiveUrn();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final LinkedDataTerm other = (LinkedDataTerm) obj;
+        if (!Objects.equals(this.identifier, other.identifier)) {
+            return false;
+        }
+        return true;
+    }
+
 }

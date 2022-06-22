@@ -15,6 +15,10 @@ import be.naturalsciences.bmdc.cruise.model.ISeaArea;
 public class SeaArea implements ISeaArea {
 
     private ILinkedDataTerm seaAreaTerm;
+    private Double eastBoundLongitude;
+    private Double westBoundLongitude;
+    private Double northBoundLatitude;
+    private Double southBoundLatitude;
 
     public SeaArea(ILinkedDataTerm seaAreaTerm) {
         this.seaAreaTerm = seaAreaTerm;
@@ -30,4 +34,37 @@ public class SeaArea implements ISeaArea {
         this.seaAreaTerm = seaAreaTerm;
     }
 
+    
+    public Double getSouthBoundLatitude() {
+        return southBoundLatitude;
+    }
+
+    public void setSouthBoundLatitude(Double southBoundLatitude) {
+        this.southBoundLatitude = southBoundLatitude;
+    }
+
+    public Double getNorthBoundLatitude() {
+        return northBoundLatitude;
+    }
+
+    public void setNorthBoundLatitude(Double northBoundLatitude) {
+        this.northBoundLatitude = northBoundLatitude;
+    }
+
+    public Double getWestBoundLongitude() {
+        return westBoundLongitude;
+    }
+
+    public void setWestBoundLongitude(Double westBoundLongitude) {
+        this.westBoundLongitude = westBoundLongitude;
+    }
+
+    public Double getEastBoundLongitude() {
+        return eastBoundLongitude;
+    }
+
+    public void setEastBoundLongitude(Double eastBoundLongitude) {
+        this.eastBoundLongitude = eastBoundLongitude;
+    }
+    
 }

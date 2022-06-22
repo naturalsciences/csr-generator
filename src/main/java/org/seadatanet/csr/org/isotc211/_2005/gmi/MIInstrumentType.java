@@ -19,6 +19,7 @@ import org.seadatanet.csr.org.isotc211._2005.gco.AbstractObjectType;
 import org.seadatanet.csr.org.isotc211._2005.gco.CharacterStringPropertyType;
 import org.seadatanet.csr.org.isotc211._2005.gmd.CICitationPropertyType;
 import org.seadatanet.csr.org.isotc211._2005.gmd.MDIdentifierPropertyType;
+import org.seadatanet.csr.org.seadatanet.SDNDataCategoryCodePropertyType;
 
 
 /**
@@ -63,7 +64,7 @@ public class MIInstrumentType
     @XmlElement(required = true)
     protected MDIdentifierPropertyType identifier;
     @XmlElement(required = true)
-    protected CharacterStringPropertyType type;
+    protected SDNDataCategoryCodePropertyType type;
     protected CharacterStringPropertyType description;
     protected MIPlatformPropertyType mountedOn;
 
@@ -140,7 +141,7 @@ public class MIInstrumentType
      *     {@link CharacterStringPropertyType }
      *     
      */
-    public CharacterStringPropertyType getType() {
+    public SDNDataCategoryCodePropertyType getType() {
         return type;
     }
 
@@ -152,7 +153,7 @@ public class MIInstrumentType
      *     {@link CharacterStringPropertyType }
      *     
      */
-    public void setType(CharacterStringPropertyType value) {
+    public void setType(SDNDataCategoryCodePropertyType value) {
         this.type = value;
     }
 

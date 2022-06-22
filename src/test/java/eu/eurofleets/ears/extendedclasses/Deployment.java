@@ -14,4 +14,7 @@ import be.naturalsciences.bmdc.cruise.model.IDeployment;
 public class Deployment extends Event implements IDeployment{
 
     
+
+
+    
 }

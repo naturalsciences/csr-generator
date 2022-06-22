@@ -49,6 +49,7 @@ org/seadatanet/csr/net/opengis/gml/DictionaryType.class
 org/seadatanet/csr/org/isotc211/_2005/gco/MultiplicityRangePropertyType.class
 org/seadatanet/csr/net/opengis/gml/CountPropertyType.class
 org/seadatanet/csr/net/opengis/gml/AbstractGeneralDerivedCRSType.class
+be/naturalsciences/bmdc/cruise/csr/IllegalCSRArgumentException.class
 org/seadatanet/csr/org/isotc211/_2005/gmd/MDMaintenanceInformationType.class
 org/seadatanet/csr/net/opengis/gml/AffineCSPropertyType.class
 org/seadatanet/csr/org/isotc211/_2005/gmi/MIGCPType.class
@@ -510,6 +511,7 @@ org/seadatanet/csr/org/isotc211/_2005/gmd/AbstractRSReferenceSystemType.class
 org/seadatanet/csr/net/opengis/gml/AbstractFeatureType.class
 org/seadatanet/csr/org/isotc211/_2005/gmx/CoordinateSystemAltType.class
 org/seadatanet/csr/net/opengis/gml/NetOpengisGmlAbstractGeneralParameterValuePropertyType.class
+be/naturalsciences/bmdc/cruise/csr/CSRBuilder$MultiKey.class
 org/seadatanet/csr/org/isotc211/_2005/gmx/PrimeMeridianAltType.class
 org/seadatanet/csr/net/opengis/gml/TimeInstantPropertyType.class
 org/seadatanet/csr/org/isotc211/_2005/gmi/MIGCPCollectionPropertyType.class
@@ -690,6 +692,7 @@ org/seadatanet/csr/net/opengis/gml/RangeParametersType.class
 org/seadatanet/csr/net/opengis/gml/ArcStringByBulgeType.class
 org/seadatanet/csr/net/opengis/gml/UserDefinedCSPropertyType.class
 org/seadatanet/csr/net/opengis/gml/SolidPropertyType.class
+be/naturalsciences/bmdc/cruise/csr/CSRObjective.class
 org/seadatanet/csr/net/opengis/gml/ArcByBulgeType.class
 org/seadatanet/csr/org/isotc211/_2005/gmx/OperationAltType.class
 org/seadatanet/csr/net/opengis/gml/RectifiedGridType.class
