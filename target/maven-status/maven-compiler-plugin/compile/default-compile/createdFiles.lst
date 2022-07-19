@@ -390,6 +390,7 @@ org/seadatanet/csr/org/isotc211/_2005/gmd/MDFeatureCatalogueDescriptionType.clas
 org/seadatanet/csr/org/isotc211/_2005/gmx/UnitDefinitionPropertyType.class
 org/seadatanet/csr/org/isotc211/_2005/gmx/MLLinearCSType.class
 org/seadatanet/csr/org/isotc211/_2005/gco/CodeListValueType.class
+be/naturalsciences/bmdc/cruise/csr/CSRBuilder$RealmAndHashTag.class
 org/seadatanet/csr/org/isotc211/_2005/gmd/MDGeometricObjectsPropertyType.class
 org/seadatanet/csr/net/opengis/gml/DirectionVectorType.class
 org/seadatanet/csr/net/opengis/gml/RangeSetType.class

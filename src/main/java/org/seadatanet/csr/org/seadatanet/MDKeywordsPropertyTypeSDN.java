@@ -8,7 +8,6 @@
 
 package org.seadatanet.csr.org.seadatanet;
 
-import org.seadatanet.csr.org.isotc211._2005.gmd.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import org.seadatanet.csr.org.isotc211._2005.gmd.*;
 
 
 /**

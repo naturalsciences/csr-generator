@@ -6,9 +6,9 @@
 package be.naturalsciences.bmdc.cruise.csr;
 
 import be.naturalsciences.bmdc.cruise.model.ICoordinate;
-import be.naturalsciences.bmdc.cruise.model.ILicense;
 import be.naturalsciences.bmdc.cruise.model.ICruise;
 import be.naturalsciences.bmdc.cruise.model.IEvent;
+import be.naturalsciences.bmdc.cruise.model.ILicense;
 import be.naturalsciences.bmdc.cruise.model.ILinkedDataTerm;
 import be.naturalsciences.bmdc.cruise.model.IOrganisation;
 import be.naturalsciences.bmdc.cruise.model.IPerson;
@@ -18,8 +18,6 @@ import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_
 import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_INSPIRE_THEMES_THESAURUS_URL;
 import be.naturalsciences.bmdc.metadata.model.IKeyword;
 import be.naturalsciences.bmdc.metadata.model.Thesaurus;
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
 import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -198,6 +196,23 @@ public class CSRBuilder {
         conformance.setExplanation(getCS("See the referenced specification"));
         conformance.setPass(getBoolean(true));
         conformance.setSpecification(getShortCitation("COMMISSION REGULATION (EC) No 1205/2008 of 3 December 2008 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards metadata", new GregorianCalendar(2008, Calendar.DECEMBER, 4).getTime(), Thesaurus.PUBLICATION));
+
+        DQElementPropertyType dqElProp1089 = gmd.createDQElementPropertyType();
+        dq.getReport().add(dqElProp1089);
+        //DQDomainConsistencyPropertyType domainConsistencyProp = gmd.createDQDomainConsistencyPropertyType();
+        DQDomainConsistencyType domainConsistency1089 = gmd.createDQDomainConsistencyType();
+        //domainConsistencyProp.setDQDomainConsistency(domainConsistency);
+        JAXBElement<AbstractDQElementType> abstractDQElement1089 = gmd.createAbstractDQElement(domainConsistency1089);
+        dqElProp1089.setAbstractDQElement(abstractDQElement1089);
+        DQResultPropertyType resultProp1089 = gmd.createDQResultPropertyType();
+        domainConsistency1089.getResult().add(resultProp1089);
+        DQConformanceResultType conformance1089 = gmd.createDQConformanceResultType();
+        JAXBElement<? extends AbstractDQResultType> abstractDQResult1089 = gmd.createDQConformanceResult(conformance1089);
+        resultProp1089.setAbstractDQResult(abstractDQResult1089);
+        conformance1089.setExplanation(getCS("See the referenced specification"));
+        conformance1089.setPass(getBoolean(true));
+        conformance1089.setSpecification(getShortCitation("COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards interoperability of spatial data sets and services", new GregorianCalendar(2008, Calendar.DECEMBER, 8).getTime(), Thesaurus.PUBLICATION));
+
         return dqProp;
     }
 
@@ -223,7 +238,7 @@ public class CSRBuilder {
     public static String GMX_CODELISTS = "http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/gmxCodeLists.xml";
     public static String GMI_CODELISTS = "http://www.isotc211.org/2005/resources/Codelist/gmiCodelists.xml";
     public static String CDI_CSR_CODELISTS = "http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/cdicsrCodeList.xml";
-    public static String EDMO_EDMERP_CODELISTS = "http://seadatanet.maris2.nl/isocodelists/sdncodelists/edmo-edmerp-Codelists.xml";
+    public static String EDMO_EDMERP_CODELISTS = "https://edmo.seadatanet.org/isocodelists/edmo-edmerp-codelists.xml";
 
     public static CodeListRealm REALM_ISO_GMX = new CodeListRealm("ISOTC211/19115", GMX_CODELISTS);
     public static CodeListRealm REALM_ISO_GMI = new CodeListRealm("ISOTC211/19115", GMI_CODELISTS);
@@ -239,6 +254,7 @@ public class CSRBuilder {
 
     public static Thesaurus THESAURUS_GEMET = new Thesaurus("GEMET - INSPIRE themes, version 1.0", null, GEMET_INSPIRE_THEMES_THESAURUS_URL, GEMET_INSPIRE_THEMES_PUBLICATION_DATE, null, Thesaurus.PUBLICATION);
     public static Thesaurus THESAURUS_C38 = new Thesaurus("SeaDataNet Ports Gazetteer", "C38", "", new GregorianCalendar(2017, Calendar.DECEMBER, 5).getTime(), "61", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_C32 = new Thesaurus("International Standards Organisation countries", "C32", "", new GregorianCalendar(2020, Calendar.NOVEMBER, 18).getTime(), "10", Thesaurus.REVISION);
     public static Thesaurus THESAURUS_C17 = new Thesaurus("ICES Platform Codes", "C17", "", new GregorianCalendar(2018, Calendar.JUNE, 9).getTime(), "748", Thesaurus.REVISION);
     public static Thesaurus THESAURUS_L06 = new Thesaurus("SeaVoX Platform Categories", "L06", "", new GregorianCalendar(2018, Calendar.MARCH, 14).getTime(), "14", Thesaurus.REVISION);
     public static Thesaurus THESAURUS_EDMERP = new Thesaurus("European Directory of Marine Environmental Research Projects", "EDMERP", "", new GregorianCalendar(2013, Calendar.APRIL, 16).getTime(), null, Thesaurus.REVISION);
@@ -691,6 +707,58 @@ public class CSRBuilder {
         return "urn:SDN:CSR:LOCAL:" + cruise.getIdentifier().replaceAll("[ !\"§$%&\\/\\\\()=?]", "_");
     }
 
+    public String getCSRIdentifierWithDots() {
+        return "urn.SDN.CSR.LOCAL." + cruise.getIdentifier().replaceAll("[ !\"§$%&\\/\\\\()=?]", "_");
+    }
+
+    private class RealmAndHashTag {
+
+        String codeListHashTag;
+        CodeListRealm realm;
+
+        public RealmAndHashTag(String codeListHashTag, CodeListRealm realm) {
+            this.codeListHashTag = codeListHashTag;
+            this.realm = realm;
+        }
+
+    }
+
+    private RealmAndHashTag SDNKeywordTypeToRealmAndHashTag(String type) {
+        Class< SDNKeyword> sdnKeywordClass = KEYWORD_TYPES.get(type);
+        if (sdnKeywordClass != null) {
+            String codeListHashTag = null;
+            try {
+
+                Field field = sdnKeywordClass.getDeclaredField("code");
+                XmlElement x = field.getAnnotation(XmlElement.class);
+                codeListHashTag = x.name();
+            } catch (NoSuchFieldException ex) {
+                Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SecurityException ex) {
+                Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            CodeListRealm realm = null;
+            if (codeListHashTag.equals("SDN_EDMERPCode")) {
+                realm = REALM_SDN_EDMO_EDMERP;
+            } else {
+                realm = REALM_SDN_CDI_CSR;
+            }
+            return new RealmAndHashTag(codeListHashTag, realm);
+        }
+        return null;
+    }
+
+    /**
+     * *
+     * This works but the final order of the these keywords is below
+     * additionalDocumentation which is not correct.
+     *
+     * @param <S>
+     * @param keywords
+     * @param type
+     * @param thesaurus
+     * @return
+     */
     public <S extends SDNKeyword> MDKeywordsPropertyTypeSDN getSDNKeyword(Collection<? extends ILinkedDataTerm> keywords, String type, Thesaurus thesaurus) {
         MDKeywordsPropertyTypeSDN individualKeywordProp = null;
         if (keywords != null && !keywords.isEmpty()) {
@@ -702,44 +770,65 @@ public class CSRBuilder {
             keywordTypeProp.setMDKeywordTypeCode(keywordType);
             individualKeyword.setType(keywordTypeProp);
 
-            Class<S> sdnKeywordClass = KEYWORD_TYPES.get(type);
-            if (sdnKeywordClass != null) {
-                S sdnKeyword = null;
-                String codeListHashTag = null;
-                try {
-
-                    Field field = sdnKeywordClass.getDeclaredField("code");
-                    XmlElement x = field.getAnnotation(XmlElement.class);
-                    codeListHashTag = x.name();
-                } catch (NoSuchFieldException ex) {
-                    Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SecurityException ex) {
-                    Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (codeListHashTag != null) {
-                    individualKeywordProp = new MDKeywordsPropertyTypeSDN();
-                    for (ILinkedDataTerm keyword : keywords) {
-                        try {
-                            sdnKeyword = sdnKeywordClass.newInstance();
-                        } catch (InstantiationException ex) {
-                            Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IllegalAccessException ex) {
-                            Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        CodeListRealm realm;
-                        if (codeListHashTag.equals("SDN_EDMERPCode")) {
-                            realm = REALM_SDN_EDMO_EDMERP;
-                        } else {
-                            realm = REALM_SDN_CDI_CSR;
-                        }
-                        sdnKeyword.set(getCodeListValue(realm, codeListHashTag, ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(keyword.getIdentifier()), keyword.getName()));
-                        individualKeyword.getKeyword().add(sdnKeyword);
-                        individualKeywordProp.setMDKeywords(individualKeyword);
-                    }
-                }
+            RealmAndHashTag realmAndHashTag = SDNKeywordTypeToRealmAndHashTag(type);
+            Class< S> sdnKeywordClass = KEYWORD_TYPES.get(type);
+            S sdnKeyword = null;
+            try {
+                sdnKeyword = sdnKeywordClass.newInstance();
+            } catch (InstantiationException ex) {
+                Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
             }
+            for (ILinkedDataTerm keyword : keywords) {
+                sdnKeyword.set(getCodeListValue(realmAndHashTag.realm, realmAndHashTag.codeListHashTag, ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(keyword.getIdentifier()), keyword.getName()));
+                individualKeyword.getKeyword().add(sdnKeyword);
+
+            }
+            individualKeywordProp.setMDKeywords(individualKeyword);
+
         }
         return individualKeywordProp;
+    }
+
+    public MDKeywordsPropertyType getAnchorKeyword(Collection<? extends ILinkedDataTerm> keywords, String type, Thesaurus thesaurus) {
+        if (keywords != null && !keywords.isEmpty()) {
+            MDKeywordsPropertyType individualKeywordProp = new MDKeywordsPropertyType();
+            MDKeywordsType individualKeyword = new MDKeywordsType();
+
+            RealmAndHashTag realmAndHashTag = SDNKeywordTypeToRealmAndHashTag(type);
+            for (ILinkedDataTerm keyword : keywords) {
+                String url = null;
+                if ("instrument".equals(type) && keyword.getTransitiveIdentifier() != null) {
+                    url = keyword.getTransitiveIdentifier();
+                } else {
+                    url = keyword.getIdentifier();
+                }
+                String text = keyword.getName();
+                AnchorType anchor = new AnchorType();
+
+                anchor.setHref(ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(url));
+                anchor.setValue(text);
+                anchor.setRole(realmAndHashTag.realm.codeList + "#" + realmAndHashTag.codeListHashTag);
+
+                JAXBElement<AnchorType> a = gmx.createAnchor(anchor);
+                CharacterStringPropertyType c = new CharacterStringPropertyType();
+                c.setCharacterString(a);
+
+                individualKeyword.getKeyword().add(c);
+            }
+            if (thesaurus
+                    != null && !thesaurus.equals(Thesaurus.NO_THESAURUS)) {
+                individualKeyword.setThesaurusName(getThesaurusCitation(thesaurus));
+            }
+            CodeListValueType keywordType = getCodeListValue(REALM_SDN_GMX, "MD_KeywordTypeCode", type, type);
+            MDKeywordTypeCodePropertyType keywordTypeProp = new MDKeywordTypeCodePropertyType();
+            keywordTypeProp.setMDKeywordTypeCode(keywordType);
+            individualKeyword.setType(keywordTypeProp);
+            individualKeywordProp.setMDKeywords(individualKeyword);
+            return individualKeywordProp;
+        }
+        return null;
     }
 
     public MDKeywordsPropertyType getKeyword(Collection<String> keywords, String type, Thesaurus thesaurus) {
@@ -821,7 +910,7 @@ public class CSRBuilder {
     private MIOperationPropertyType getCruiseOperation() {
         MIOperationPropertyType operationProp = gmi.createMIOperationPropertyType();
         MIOperationType operation = gmi.createMIOperationType();
-        operation.setId(getCSRIdentifier());
+        operation.setId(getCSRIdentifierWithDots());
         operation.setDescription(getCS(cruise.getObjectives()));
         operation.setCitation(getShortCruiseCitation());
         MDProgressCodePropertyType progressCodeProp = gmd.createMDProgressCodePropertyType();
@@ -994,33 +1083,35 @@ public class CSRBuilder {
         //extract all events, grouped by their tool, C77 category, day date and principal investigator. Do this for each group of events separately (deployments, samplings,...)
         if (this.cruise.getEvents() != null) {
             for (IEvent event : this.cruise.getEvents()) {
-                ITool tool = event.getTool();
-                for (CSRObjective cSRObjectiveTemplate : CSRObjective.OBJECTIVES) {
-                    if (event.getProcess().getIdentifier().equals(cSRObjectiveTemplate.getProcessIdentifier())) {
-                        OffsetDateTime day = event.getTimeStamp().truncatedTo(ChronoUnit.DAYS);
-                        List<IPerson> pis = new ArrayList();
-                        if (event.getProgram() != null) {
-                            pis = new ArrayList(event.getProgram().getPrincipalInvestigators());
-                        }
-                        IPerson pi = pis.isEmpty() ? null : pis.get(0);
-                        MultiKey key = new MultiKey(tool, event.getSubject(), day, pi);
+                if (event.getPlatform().equals(this.cruise.getPlatform())) {
+                    ITool tool = event.getTool();
+                    for (CSRObjective cSRObjectiveTemplate : CSRObjective.OBJECTIVES) {
+                        if (event.getProcess().getIdentifier().equals(cSRObjectiveTemplate.getProcessIdentifier())) {
+                            OffsetDateTime day = event.getTimeStamp().truncatedTo(ChronoUnit.DAYS);
+                            List<IPerson> pis = new ArrayList();
+                            if (event.getProgram() != null) {
+                                pis = new ArrayList(event.getProgram().getPrincipalInvestigators());
+                            }
+                            IPerson pi = pis.isEmpty() ? null : pis.get(0);
+                            MultiKey key = new MultiKey(tool, event.getSubject(), day, pi);
 
-                        CSRObjective cSRObjective = objectives.get(key);
-                        if (cSRObjective == null) {
-                            cSRObjective = new CSRObjective(cSRObjectiveTemplate);
-                        }
-                        cSRObjective.setTool(tool);//every time again even though it may be the same...
-                        cSRObjective.setPi(pi);
-                        cSRObjective.setPurpose(event.getSubject());
-                        cSRObjective.addEvent(event);
-                        if (event.getToolCategory().getIdentifier().equals(cSRObjective.getToolCategoryIdentifier())) {
-                            cSRObjective.setTool(tool);
+                            CSRObjective cSRObjective = objectives.get(key);
+                            if (cSRObjective == null) {
+                                cSRObjective = new CSRObjective(cSRObjectiveTemplate);
+                            }
+                            cSRObjective.setTool(tool);//every time again even though it may be the same...
                             cSRObjective.setPi(pi);
                             cSRObjective.setPurpose(event.getSubject());
                             cSRObjective.addEvent(event);
-                        }
+                            if (event.getToolCategory().getIdentifier().equals(cSRObjective.getToolCategoryIdentifier())) {
+                                cSRObjective.setTool(tool);
+                                cSRObjective.setPi(pi);
+                                cSRObjective.setPurpose(event.getSubject());
+                                cSRObjective.addEvent(event);
+                            }
 
-                        objectives.put(key, cSRObjective);
+                            objectives.put(key, cSRObjective);
+                        }
                     }
                 }
             }
@@ -1028,6 +1119,7 @@ public class CSRBuilder {
 
         csr.getAcquisitionInformation().add(getAcquisitionInformation(objectives));
         return result;
+
     }
 
     private class MultiKey {
@@ -1145,8 +1237,8 @@ public class CSRBuilder {
 
         sdnId.setCitation(getCruiseCitation());
         sdnId.setAbstract(getCS(cruise.getObjectives()));
-        sdnId.setPurpose(getCS(cruise.getPurpose()));
-        sdnId.setId(getCSRIdentifier());
+        //sdnId.setPurpose(getCS(cruise.getPurpose())); //not CSR-compliant
+        //sdnId.setId(getCSRIdentifier()); //not CSR-compliant
         sdnId.getAdditionalDocumentation().add(null);
         // sdnId.setSupplementalInformation(getCS(cruise.getFinalReportUrl()));
         EXExtentPropertyType extentProp = new EXExtentPropertyType();
@@ -1156,8 +1248,9 @@ public class CSRBuilder {
         extent.getTemporalElement().add(getTemporalExtent(cruise.getStartDate(), cruise.getEndDate()));
 
         extent.getGeographicElement().add(getGeographicExtent(cruise.getSouthBoundLatitude(), cruise.getNorthBoundLatitude(), cruise.getWestBoundLongitude(), cruise.getEastBoundLongitude()));
-
-        extent.getGeographicElement().add(getBoundingPolygon(cruise.getTrack()));
+        if (cruise.getTrack() != null) {
+            extent.getGeographicElement().add(getBoundingPolygon(cruise.getTrack()));
+        }
         sdnId.getExtent().add(extentProp);
         Collection<? extends IPerson> chiefScientists = cruise.getChiefScientists();
 
@@ -1178,33 +1271,65 @@ public class CSRBuilder {
             sdnId.getPointOfContact().add(getResponsibleParty(principalInvestigator, Role.POINT_OF_CONTACT));
         }*/
  /*Dataset browsegraphic*/
-        if (cruise.getTrackImageUrl() != null) {
+        //Ifremer CSR site doesn't like this
+        /* if (cruise.getTrackImageUrl() != null) {
             sdnId.getGraphicOverview().add(getBrowseGraphic(cruise.getTrackImageUrl(), "Image of the track", cruise.getTrackImageUrl().substring(cruise.getTrackImageUrl().length() - 3, cruise.getTrackImageUrl().length())));
         } else if (cruise.getTrackGmlUrl() != null) {
             sdnId.getGraphicOverview().add(getBrowseGraphic(cruise.getTrackGmlUrl(), "GML track", "GML"));
-        }/*Dataset Keywords*/
-        sdnId.getDescriptiveKeywords().add(OCEANOGRAPHIC_GEOGRAPHIC_FEATURES);
+        }*/
+ /*Dataset Keywords*/
+        if (OCEANOGRAPHIC_GEOGRAPHIC_FEATURES != null) {
+            sdnId.getDescriptiveKeywords().add(OCEANOGRAPHIC_GEOGRAPHIC_FEATURES);
+        }
 
         List<ILinkedDataTerm> departureHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour().getTerm()});
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureHarbours, "departure_place", THESAURUS_C38));
+        MDKeywordsPropertyType kw = getAnchorKeyword(departureHarbours, "departure_place", THESAURUS_C38);
+        if (kw != null) {
+            sdnId.getDescriptiveKeywords().add(kw);
+        }
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureHarbours, "departure_place", THESAURUS_C38));
 
         List<ILinkedDataTerm> arrivalHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour().getTerm()});
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalHarbours, "arrival_place", THESAURUS_C38));
+        MDKeywordsPropertyType kw2 = getAnchorKeyword(arrivalHarbours, "arrival_place", THESAURUS_C38);
+        if (kw2 != null) {
+            sdnId.getDescriptiveKeywords().add(kw2);
+        }
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalHarbours, "arrival_place", THESAURUS_C38));
 
         List<ILinkedDataTerm> departureCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour()._getCountry().getTerm()});
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureCountries, "departure_country", THESAURUS_C38));
+        MDKeywordsPropertyType kw3 = getAnchorKeyword(departureCountries, "departure_country", THESAURUS_C32);
+        if (kw3 != null) {
+            sdnId.getDescriptiveKeywords().add(kw3);
+        }
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureCountries, "departure_country", THESAURUS_C32));
 
         List<ILinkedDataTerm> arrivalCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour()._getCountry().getTerm()});
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalCountries, "arrival_country", THESAURUS_C38));
+        MDKeywordsPropertyType kw4 = getAnchorKeyword(arrivalCountries, "arrival_country", THESAURUS_C32);
+        if (kw4 != null) {
+            sdnId.getDescriptiveKeywords().add(kw4);
+        }
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalCountries, "arrival_country", THESAURUS_C32));
 
         List<ILinkedDataTerm> platforms = Arrays.asList(new ILinkedDataTerm[]{cruise.getPlatform().getTerm()});
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platforms, "platform", THESAURUS_C17));
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platforms, "platform", THESAURUS_C17));
+        MDKeywordsPropertyType kw5 = getAnchorKeyword(platforms, "platform", THESAURUS_C17);
+        if (kw5 != null) {
+            sdnId.getDescriptiveKeywords().add(kw5);
+        }
 
         List<ILinkedDataTerm> platformClasses = Arrays.asList(new ILinkedDataTerm[]{cruise.getPlatform().getPlatformClass()});
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platformClasses, "platform_class", THESAURUS_L06));
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platformClasses, "platform_class", THESAURUS_L06));
+        MDKeywordsPropertyType kw6 = getAnchorKeyword(platformClasses, "platform_class", THESAURUS_L06);
+        if (kw6 != null) {
+            sdnId.getDescriptiveKeywords().add(kw6);
+        }
 
         Collection<? extends ILinkedDataTerm> projects = cruise.getProjectTerms();
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(projects, "project", THESAURUS_EDMERP));
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(projects, "project", THESAURUS_EDMERP));
+        MDKeywordsPropertyType kw7 = getAnchorKeyword(projects, "project", THESAURUS_EDMERP);
+        if (kw7 != null) {
+            sdnId.getDescriptiveKeywords().add(kw7);
+        }
 
         Collection<? extends ILinkedDataTerm> seaAreas = cruise.getSeaAreaTerms();
         Collection<ILinkedDataTerm> marsdenSquares = new ArrayList<>();
@@ -1218,14 +1343,28 @@ public class CSRBuilder {
             }
         }
 
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(seaAreas, "place", THESAURUS_C19));
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(marsdenSquares, "marsden_square", THESAURUS_C19));
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(seaAreas, "place", THESAURUS_C19));
+        //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(marsdenSquares, "marsden_square", THESAURUS_C19));
+        MDKeywordsPropertyType kw8 = getAnchorKeyword(seaAreas, "place", THESAURUS_C19);
+        if (kw8 != null) {
+            sdnId.getDescriptiveKeywords().add(kw8);
+        }
+        MDKeywordsPropertyType kw9 = getAnchorKeyword(marsdenSquares, "marsden_square", THESAURUS_C19);
+        if (kw9 != null) {
+            sdnId.getDescriptiveKeywords().add(kw9);
+        }
 
         Collection<? extends ILinkedDataTerm> parameters = cruise.getP02();
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(parameters, "parameter", THESAURUS_P02));
+        MDKeywordsPropertyType kw10 = getAnchorKeyword(parameters, "parameter", THESAURUS_P02);
+        if (kw10 != null) {
+            sdnId.getDescriptiveKeywords().add(kw10);
+        }
 
         Collection<? extends ILinkedDataTerm> instruments = cruise.getInstrumentTypes();
-        sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(instruments, "instrument", THESAURUS_L05));
+        MDKeywordsPropertyType kw11 = getAnchorKeyword(instruments, "instrument", THESAURUS_L05);
+        if (kw11 != null) {
+            sdnId.getDescriptiveKeywords().add(kw11);
+        }
 
         /*Dataset Constraints*/
         sdnId.getResourceConstraints().add(getUseLimitation("Not applicable"));
@@ -1343,8 +1482,10 @@ public class CSRBuilder {
                 if (c.isValid()) {
                     posList.getValue().add(c.getX());
                     posList.getValue().add(c.getY());
+
                 } else {
-                    Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, "Erroneous coordinate found: " + c.getX() + "," + c.getY());
+                    Logger.getLogger(CSRBuilder.class
+                            .getName()).log(Level.SEVERE, "Erroneous coordinate found: " + c.getX() + "," + c.getY());
                 }
             }
 

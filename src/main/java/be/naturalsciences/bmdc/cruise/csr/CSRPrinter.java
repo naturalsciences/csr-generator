@@ -45,6 +45,13 @@ public class CSRPrinter {
         marshaller.marshal(builder.getMetadata(), file);
     }
 
+    //SDN_PortCode
+    private String replaceAnchors(String xml, String SDNCodeType) {
+        xml = xml.replaceAll("<gmx:Anchor xlink:href=\"(.*?)\" xlink:role=\".*?#" + SDNCodeType + "\">(.*?)</gmx:Anchor>",
+                "<sdn:" + SDNCodeType + " codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/cdicsrCodeList.xml#" + SDNCodeType + "\" codeListValue=\"$1\" codeSpace=\"SeaDataNet\">$2</sdn:" + SDNCodeType + ">");
+        return xml;
+    }
+
     public String getResult() throws JAXBException {
         StringWriter writer = new StringWriter();
         marshaller.marshal(builder.getMetadata(), writer);
@@ -59,10 +66,25 @@ public class CSRPrinter {
         result = result.replace("gmi:MI_Objective xsi:type=\"sdn:SDN_Objective_Type\"", "sdn:SDN_Objective");
         result = result.replace("gmi:MI_Objective", "sdn:SDN_Objective");
 
+        result = result.replaceAll("xsi:type=\".*?\"", "");
+
         result = result.replace("sdn:SDN_ObjectiveTypeCode", "gmi:MI_ObjectiveTypeCode");
 
+        result = replaceAnchors(result, "SDN_PortCode");
+        result = replaceAnchors(result, "SDN_CountryCode");
+        result = replaceAnchors(result, "SDN_PlatformCode");
+        result = replaceAnchors(result, "SDN_PlatformCategoryCode");
+        result = replaceAnchors(result, "SDN_EDMERPCode");
+        result = replaceAnchors(result, "SDN_WaterBodyCode");
+        result = replaceAnchors(result, "SDN_DeviceCategoryCode");
+        result = replaceAnchors(result, "SDN_ParameterDiscoveryCode");
+        result = replaceAnchors(result, "SDN_MarsdenCode");
+
         result = result.replace("gml:AbstractGeometry", "gml:MultiCurve");
-        result = result.replace("gmd:additionalDocumentation xsi:nil=\"true\"", "sdn:additionalDocumentation xlink:href=\"" + builder.getCruise().getFinalReportUrl() + "\"");
+        if (builder.getCruise().getFinalReportUrl() != null) {
+            result = result.replace("gmd:additionalDocumentation xsi:nil=\"true\"", "sdn:additionalDocumentation xlink:href=\"" + builder.getCruise().getFinalReportUrl() + "\"");
+        }
+        result = result.replace("<gmd:additionalDocumentation xsi:nil=\"true\"/>","");
         if (builder.getDefaultMessages() != null && !builder.getDefaultMessages().isEmpty()) {
             StringBuilder sb = new StringBuilder("<!--");
             for (String msg : builder.getDefaultMessages()) {

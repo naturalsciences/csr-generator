@@ -6,7 +6,6 @@
 //
 package org.seadatanet.csr.org.seadatanet;
 
-import org.seadatanet.csr.org.isotc211._2005.gmd.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import org.seadatanet.csr.org.isotc211._2005.gco.CharacterStringPropertyType;
+import org.seadatanet.csr.org.isotc211._2005.gmd.*;
 
 /**
  * Keywords, their type and reference source

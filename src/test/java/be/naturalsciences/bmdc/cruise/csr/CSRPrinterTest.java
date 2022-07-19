@@ -6,17 +6,15 @@
 package be.naturalsciences.bmdc.cruise.csr;
 
 import be.naturalsciences.bmdc.cruise.comparator.CoordinateComparator;
-import be.naturalsciences.bmdc.cruise.csr.CSRPrinter;
-import be.naturalsciences.bmdc.cruise.csr.CSRBuilder;
 import be.naturalsciences.bmdc.cruise.model.ICoordinate;
 import be.naturalsciences.bmdc.cruise.model.IEvent;
 import be.naturalsciences.bmdc.cruise.model.ITool;
 import eu.eurofleets.ears.extendedclasses.Coordinate;
 import eu.eurofleets.ears.extendedclasses.Country;
-import eu.eurofleets.ears.extendedclasses.Harbour;
 import eu.eurofleets.ears.extendedclasses.Cruise;
 import eu.eurofleets.ears.extendedclasses.Deployment;
 import eu.eurofleets.ears.extendedclasses.Event;
+import eu.eurofleets.ears.extendedclasses.Harbour;
 import eu.eurofleets.ears.extendedclasses.License;
 import eu.eurofleets.ears.extendedclasses.LinkedDataTerm;
 import eu.eurofleets.ears.extendedclasses.Organisation;
@@ -38,37 +36,37 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Ignore;
+import org.junit.Test;
 
 /**
  *
  * @author thomas
  */
 public class CSRPrinterTest {
-    
+
     public CSRPrinterTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     public static Event getTestDeployment(String date, ITool tool) {
         Person joan = new Person("Joan", "Backers", null, null, null, "joan.backers@naturalsciences.be");
         Deployment event = new Deployment();
@@ -90,7 +88,7 @@ public class CSRPrinterTest {
         event.setProperties(properties);
         return event;
     }
-    
+
     public static Cruise generateANiceTestCruise() {
         Cruise c = new Cruise();
         c.setFinalReportUrl("https://csr.seadatanet.org/html/20193166/20193166_report.pdf");
@@ -108,7 +106,7 @@ public class CSRPrinterTest {
         coords.add(c4);
         coords.add(c5);
         Collection<IEvent> events = new ArrayList<>();
-        
+
         events.add(getTestDeployment("2019-04-25T11:08:00Z", new Tool(new LinkedDataTerm("http://vocab.nerc.ac.uk/collection/L22/current/TOOL0653/", "Van Veen grab", null), null))); //same day
         events.add(getTestDeployment("2019-04-25T12:08:00Z", new Tool(new LinkedDataTerm("http://vocab.nerc.ac.uk/collection/L22/current/TOOL0653/", "Van Veen grab", null), null)));
         events.add(getTestDeployment("2019-04-25T13:08:00Z", new Tool(new LinkedDataTerm("http://vocab.nerc.ac.uk/collection/L22/current/TOOL0653/", "Van Veen grab", null), null)));
@@ -126,7 +124,7 @@ public class CSRPrinterTest {
             c.setTrack(coords);
             ICoordinate max = Collections.max(c.getTrack(), new CoordinateComparator());
             ICoordinate min = Collections.min(c.getTrack(), new CoordinateComparator());
-            
+
             c.setSouthBoundLatitude(min.getY());
             c.setNorthBoundLatitude(max.getY());
             c.setWestBoundLongitude(min.getX());
@@ -148,16 +146,16 @@ public class CSRPrinterTest {
         // c.setObjectives("The objectives of the cruise are to validate the modeling efforts of the last 2 years using the COHERENS model. Rubber ducks will be released.");
 
         List<SeaArea> seaAreas = Arrays.asList(new SeaArea[]{new SeaArea(new LinkedDataTerm("http://vocab.nerc.ac.uk/collection/C19/current/1_2", "North Sea", "SDN:C19::1_2"))});
-        
+
         List<Cruise> cruises = Arrays.asList(new Cruise[]{c});
         c.setSeaAreas(seaAreas);
-        
+
         LinkedDataTerm odnaturet = new LinkedDataTerm("https://edmo.seadatanet.org/report/3330", "Royal Belgian Institute of Natural Sciences, Operational Directorate Natural Environment", "SDN:EDMO::3330");
         Organisation odnature = new Organisation(odnaturet, "02/555.555", "02/555.556", "info@odnature.be", "http://odnature.naturalsciences.be", "Vautierstraat 1", "Brussel", "1000", belgium);
-        
+
         LinkedDataTerm sumot = new LinkedDataTerm("https://edmo.seadatanet.org/report/3330", "Royal Belgian Institute of Natural Sciences, Operational Directorate Natural Environment, SUMO", "SDN:EDMO::3330");
         Organisation sumo = new Organisation(sumot, "02/555.551", "02/555.552", "info@sumo.be", "http://odnature.naturalsciences.be", "Vautierstraat 1", "Brussel", "1000", belgium);
-        
+
         List<Person> chiefScientists = Arrays.asList(new Person[]{new Person("Michael", "Fettweis", sumo, null, null, null)});
         c.setChiefScientists(chiefScientists);
         Platform p = new Platform(new LinkedDataTerm("http://vocab.nerc.ac.uk/collection/C17/current/11BE", "Belgica", "SDN:C17::11BE"), new LinkedDataTerm("http://vocab.nerc.ac.uk/collection/L06/current/31", "research vessel", "SDN:L06::31"), odnature);
@@ -165,13 +163,13 @@ public class CSRPrinterTest {
         LinkedDataTerm bmdct = new LinkedDataTerm("https://edmo.seadatanet.org/report/1778", "Belgian Marine Data Centre", "SDN:EDMO::1778");
         Organisation bmdc = new Organisation(bmdct, "02/555666", "02/555662", "info@bmdc.be", "www.bmdc.be", "Vautierstraat 1", "Brussel", "1000", belgium);
         c.setCollateCentre(bmdc);
-        
+
         Project prj = new Project(new LinkedDataTerm("https://edmerp.seadatanet.org/report/11436", "An ecosystem approach in sustainable fisheries management through local ecological knowledge {acronym=&quot;LECOFISH&quot; organisation=&quot;Ghent University, Maritime Institute / Dpt. International Public Law&quot; country=&quot;Belgium&quot;}", "SDN:EDMERP::11436"));
         List<Project> projects = Arrays.asList(new Project[]{prj});
         Program pr = new Program("MOMO", cruises, chiefScientists, "The MOMO programme is active since 2012 and investigates...", projects);
         List<Program> programmes = Arrays.asList(new Program[]{pr});
         c.setPrograms(programmes);
-        
+
         for (IEvent event : c.getEvents()) {
             event.setProgram(pr); //MOMO
         }
@@ -192,7 +190,7 @@ public class CSRPrinterTest {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-    
+
     @Test
     public void testGetResult2() throws Exception {
         System.out.println("getResult");
@@ -200,12 +198,12 @@ public class CSRPrinterTest {
         cruise.setObjectives(null);
         License l = new License(new LinkedDataTerm("http://www.seadatanet.org/urnurl/SDN:L08::LS", "SeaDataNet licence", "SDN:L08::LS"));
         CSRPrinter instance = new CSRPrinter(new CSRBuilder(cruise, l, false));
-        
+
         String result = instance.getResult();
         System.out.println(result);
         testResult(result);
     }
-    
+
     private void testResult(String result) {
         assertTrue(result.contains("<gmd:LanguageCode codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/gmxCodeLists.xml#LanguageCode\" codeListValue=\"eng\" codeSpace=\"SeaDataNet\">English</gmd:LanguageCode>"));
         assertTrue(result.contains("<gmd:MD_CharacterSetCode codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/gmxCodeLists.xml#MD_CharacterSetCode\" codeListValue=\"utf8\" codeSpace=\"ISOTC211/19115\">utf8</gmd:MD_CharacterSetCode>"));
@@ -215,7 +213,7 @@ public class CSRPrinterTest {
         //assertTrue(result.contains("xlink:type=\"simple\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""));
         assertTrue(result.contains("<sdn:SDN_PlatformCode codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/cdicsrCodeList.xml#SDN_PlatformCode\" codeListValue=\"11BE\" codeSpace=\"SeaDataNet\">Belgica</sdn:SDN_PlatformCode>"));
         assertTrue(result.contains("<sdn:SDN_CountryCode codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/cdicsrCodeList.xml#SDN_CountryCode\" codeListValue=\"Belgium\" codeSpace=\"SeaDataNet\">BE</sdn:SDN_CountryCode>"));
-        assertTrue(result.contains("<sdn:SDN_EDMOCode codeList=\"http://seadatanet.maris2.nl/isocodelists/sdncodelists/edmo-edmerp-Codelists.xml#SDN_EDMOCode\" codeListValue=\"1778\" codeSpace=\"SeaDataNet\">Belgian Marine Data Centre</sdn:SDN_EDMOCode>"));
+        assertTrue(result.contains("<sdn:SDN_EDMOCode codeList=\"https://edmo.seadatanet.org/isocodelists/edmo-edmerp-codelists.xml#SDN_EDMOCode\" codeListValue=\"1778\" codeSpace=\"SeaDataNet\">Belgian Marine Data Centre</sdn:SDN_EDMOCode>"));
         assertTrue(result.contains("<gmd:MD_KeywordTypeCode codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/gmxCodeLists.xml#MD_KeywordTypeCode\" codeListValue=\"departure_place\" codeSpace=\"SeaDataNet\">departure_place</gmd:MD_KeywordTypeCode>"));
         assertTrue(result.contains("<gco:CharacterString>Oceanographic geographical features</gco:CharacterString>"));
         assertTrue(result.contains("MD_KeywordTypeCode codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/gmxCodeLists.xml#MD_KeywordTypeCode\" codeListValue=\"theme\" codeSpace=\"SeaDataNet\""));
@@ -225,13 +223,13 @@ public class CSRPrinterTest {
         assertTrue(result.contains("arrival_country"));
         assertTrue(result.contains("<gco:Decimal>2.5</gco:Decimal>"));
         assertTrue(result.contains("<gco:Decimal>51.2</gco:Decimal>"));
-        
+
         assertTrue(result.contains("<sdn:SDN_EDMERPCode codeList=\"http://seadatanet.maris2.nl/isocodelists/sdncodelists/edmo-edmerp-Codelists.xml#SDN_EDMERPCode\" codeListValue=\"11436\" codeSpace=\"SeaDataNet\">An ecosystem approach in sustainable fisheries management through local ecological knowledge {acronym=&amp;quot;LECOFISH&amp;quot; organisation=&amp;quot;Ghent University, Maritime Institute / Dpt. International Public Law&amp;quot; country=&amp;quot;Belgium&amp;quot;}</sdn:SDN_EDMERPCode>"));
-        
+
         assertTrue(result.contains("<gco:CharacterString>Not applicable</gco:CharacterString>"));
-        
+
         assertTrue(result.contains("<gmd:MD_TopicCategoryCode>oceans</gmd:MD_TopicCategoryCode>"));
-        
+
         assertTrue(result.contains("<gml:beginPosition>2017-11-08T07:00:00+01:00</gml:beginPosition>")); //start date in the temporalextent
         assertTrue(result.contains("<gco:DateTime>2017-11-08T07:00:00+01:00</gco:DateTime>")); //start date in the significantEvents list
         assertTrue(result.contains("sdn:SDN_Objective gco:isoType=\"MI_Objective_Type\" id=")); //objective
@@ -241,5 +239,9 @@ public class CSRPrinterTest {
         assertTrue(result.contains("<sdn:quantity>3</sdn:quantity>"));
         assertTrue(result.contains("<gco:CharacterString>urn:SDN:CSR:LOCAL:BE11_2007_18.objective.G71</gco:CharacterString>"));
         assertTrue(result.contains("<sdn:SDN_DataCategoryCode codeList=\"http://vocab.nerc.ac.uk/isoCodelists/sdnCodelists/cdicsrCodeList.xml#SDN_DataCategoryCode\" codeListValue=\"G71\" codeSpace=\"SeaDataNet\">In-situ seafloor measurement/sampling</sdn:SDN_DataCategoryCode>"));
+        assertFalse(result.contains("<gmd:geographicElement xsi:nil=\"true\"/>"));
+
+        assertTrue(result.contains("COMMISSION REGULATION (EU) No 1089/2010"));
+
     }
 }
