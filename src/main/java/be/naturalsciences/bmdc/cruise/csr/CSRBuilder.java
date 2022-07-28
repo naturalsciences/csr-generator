@@ -42,6 +42,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
@@ -932,15 +933,23 @@ public class CSRBuilder {
         String toolIdentifier = ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getTool().getTerm().getIdentifier());
         String c77Identifier = ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPurpose().getIdentifier());
         String c77Name = cSRobjective.getPurpose().getName();
-        String objectiveIdentifier = getCSRIdentifier() + ".objective." + c77Identifier;
-        String eventIdentifier = getCSRIdentifier() + ".event." + c77Identifier;
+        String objectiveIdentifier = getCSRIdentifierWithDots() + ".objective." + c77Identifier;
+        String eventIdentifier = getCSRIdentifierWithDots() + ".event." + c77Identifier;
+        Set<String> objectives = cSRobjective.getEvents().stream().map(IEvent::getDescription).collect(Collectors.toSet());
         String functionName = c77Name + " with " + toolName;
-        String sensingInstrumentIdentifier = getCSRIdentifier() + ".objective." + c77Identifier + ".instrument." + toolIdentifier;
+        if (objectives.toArray()[0].equals("-") || (objectives.size() == 1 && cSRobjective.getEvents().size() > 1)) { //if all the events have the same description and there is more than 1 event, then set the function to the descriptions.
+            functionName = (String) objectives.toArray()[0];
+        }
+
+        String sensingInstrumentIdentifier = c77Identifier;//getCSRIdentifierWithDots() + ".objective." + c77Identifier + ".instrument." + toolIdentifier;
         String instituteIdentifier = cSRobjective.getPi() == null ? null : "SDN:EDMO::" + ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPi().getOrganisation().getTerm().getIdentifier());
         String instituteName = cSRobjective.getPi() == null ? null : cSRobjective.getPi().getOrganisation().getTerm().getName();
 
         String platformIdentifier = c77Identifier + "/" + ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPi().getOrganisation().getTerm().getIdentifier());
         String platformDescription = c77Name + ", conducted by " + instituteName;
+        if (objectives.toArray()[0].equals("-") || (objectives.size() == 1 && cSRobjective.getEvents().size() > 1)) { //if all the events have the same description and there is more than 1 event, then set the function to the descriptions.
+            platformDescription = (String) objectives.toArray()[0];
+        }
         MIObjectivePropertyType objectiveProp = gmi.createMIObjectivePropertyType();
         SDNObjectiveType objective = sdn.createSDNObjectiveType();
         final JAXBElement<MIObjectiveType> MIObjective = gmi.createMIObjective(objective);
@@ -1001,24 +1010,6 @@ public class CSRBuilder {
         return objectiveProp;
     }
 
-    private MIOperationPropertyType getRecoveryOperation() {
-        MIOperationPropertyType operationProp = gmi.createMIOperationPropertyType();
-        MIOperationType operation = gmi.createMIOperationType();
-        operation.setId(getCSRIdentifier());
-        operation.setDescription(getCS(cruise.getObjectives()));
-        operation.setCitation(getShortCruiseCitation());
-        MDProgressCodePropertyType progressCodeProp = gmd.createMDProgressCodePropertyType();
-        progressCodeProp.setMDProgressCode(getCodeListValue(REALM_SDN_GMX, "MD_ProgressCode", "completed", "completed"));
-        operation.setStatus(progressCodeProp);
-        CodeListValueType trigger = getCodeListValue(REALM_ISO_GMI, "MI_TriggerCode", "manual", "manual");
-        CodeListValueType context = getCodeListValue(REALM_ISO_GMI, "MI_ContextCode", "wayPoint", "wayPoint");
-        CodeListValueType sequenceStart = getCodeListValue(REALM_ISO_GMI, "MI_SequenceCode", "start", "start");
-        CodeListValueType sequenceEnd = getCodeListValue(REALM_ISO_GMI, "MI_SequenceCode", "end", "end");
-        operation.getSignificantEvent().add(getEvent("cruise-start", trigger, context, sequenceStart, cruise.getStartDate()));
-        operation.getSignificantEvent().add(getEvent("cruise-end", trigger, context, sequenceEnd, cruise.getEndDate()));
-        operationProp.setMIOperation(operation);
-        return operationProp;
-    }
 
     private MIAcquisitionInformationPropertyType getAcquisitionInformation(Map<MultiKey, CSRObjective> objectives) {
         MIAcquisitionInformationPropertyType acqProp = gmi.createMIAcquisitionInformationPropertyType();

@@ -20,17 +20,18 @@ import java.util.Set;
  */
 public class CSRObjective {
 
+    //note that they do not contain Actions. Deployment/start and deployment/end will count double...
     public static CSRObjective deployments = new CSRObjective("Deployment", "http://ontologies.ef-ears.eu/ears2/1#pro_22", null, null, null, null, "number of deployments", "CSRU025", null, new ArrayList<>());
     public static CSRObjective observations = new CSRObjective("Observation", "http://ontologies.ef-ears.eu/ears2/1#pro_8", null, null, null, null, "number of observations", "CSRU011", null, new ArrayList<>());
     public static CSRObjective profiles = new CSRObjective("Profile", "http://ontologies.ef-ears.eu/ears2/1#pro_13", null, null, null, null, "number of profiles", "CSRU007", null, new ArrayList<>());
     public static CSRObjective recoveries = new CSRObjective("Recovery", "http://ontologies.ef-ears.eu/ears2/1#pro_23", null, null, null, null, "number of recoveries", "CSRU026", null, new ArrayList<>());
     public static CSRObjective samplings = new CSRObjective("Sampling", "http://ontologies.ef-ears.eu/ears2/1#pro_1", null, null, null, null, "number of samples", "CSRU006", null, new ArrayList<>());
-    public static CSRObjective cores = new CSRObjective("Sampling", "http://ontologies.ef-ears.eu/ears2/1#pro_1", null, null, "unconsolidated sediment corers", "http://vocab.nerc.ac.uk/collection/L05/current/51/", "number of cores", "CSRU008", null, new ArrayList<>());
+    public static CSRObjective cores = new CSRObjective("Sampling", "http://ontologies.ef-ears.eu/ears2/1#pro_1", "unconsolidated sediment corers", "http://vocab.nerc.ac.uk/collection/L05/current/51/", null, null, "number of cores", "CSRU008", null, new ArrayList<>());
 
     public static CSRObjective tracks = new CSRObjective("Track", "http://ontologies.ef-ears.eu/ears2/1#pro_11", null, null, null, null, "number of track lines", "CSRU022", null, new ArrayList<>());
     public static CSRObjective tows = new CSRObjective("Tow", "http://ontologies.ef-ears.eu/ears2/1#pro_10", null, null, null, null, "number of hauls", "CSRU005", null, new ArrayList<>());
 
-    public static CSRObjective stations = new CSRObjective(null, null, null, null, null, null, "number of stations", "CSRU001", null, new ArrayList<>());
+    public static CSRObjective stations = new CSRObjective("Operation", "http://ontologies.ef-ears.eu/ears2/1#pro_28", null, null, null, null, "number of stations", "CSRU001", null, new ArrayList<>()); //this is a generalised quantity when all others fail
 
     public static Set<CSRObjective> OBJECTIVES = new HashSet<>();
 
