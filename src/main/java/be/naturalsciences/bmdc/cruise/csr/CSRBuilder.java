@@ -18,7 +18,7 @@ import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_
 import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_INSPIRE_THEMES_THESAURUS_URL;
 import be.naturalsciences.bmdc.metadata.model.IKeyword;
 import be.naturalsciences.bmdc.metadata.model.Thesaurus;
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
+//import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -46,6 +46,10 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 import org.seadatanet.csr.net.opengis.gml.AbstractGeometryType;
 import org.seadatanet.csr.net.opengis.gml.CodeType;
 import org.seadatanet.csr.net.opengis.gml.CurvePropertyType;
@@ -1195,15 +1199,28 @@ public class CSRBuilder {
 
     public DateTimePropertyType getDateTime(OffsetDateTime offsetdt) {
         DateTimePropertyType dateTimeProp = gco.createDateTimePropertyType();
-        XMLGregorianCalendarImpl xmlGregorianCalendar = new XMLGregorianCalendarImpl();
-        xmlGregorianCalendar.setYear(offsetdt.getYear());
-        xmlGregorianCalendar.setMonth(offsetdt.getMonthValue());
-        xmlGregorianCalendar.setDay(offsetdt.getDayOfMonth());
-        xmlGregorianCalendar.setHour(offsetdt.getHour());
-        xmlGregorianCalendar.setMinute(offsetdt.getMinute());
-        xmlGregorianCalendar.setSecond(offsetdt.getSecond());
-        xmlGregorianCalendar.setTimezone(offsetdt.getOffset().getTotalSeconds() / 60);
-        dateTimeProp.setDateTime(xmlGregorianCalendar);
+        //XMLGregorianCalendar xmlGregorianCalendar = null; //new XMLGregorianCalendarImpl();
+        //try {
+        GregorianCalendar gregorianCalendar= GregorianCalendar.from(offsetdt.toZonedDateTime());
+        try {
+            XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+            dateTimeProp.setDateTime(xmlGregorianCalendar);
+        } catch (DatatypeConfigurationException e) {
+            e.printStackTrace();
+        }
+            /*cal.setYear(offsetdt.getYear());
+            cal.setMonth(offsetdt.getMonthValue());
+            cal.setDay(offsetdt.getDayOfMonth());
+            cal.setHour(offsetdt.getHour());
+            cal.setMinute(offsetdt.getMinute());
+            cal.setSecond(offsetdt.getSecond());
+            cal.setTimezone(offsetdt.getOffset().getTotalSeconds() / 60);
+            */
+        //} catch (DatatypeConfigurationException e) {
+        //    e.printStackTrace();
+        //}
+
+
         //  dateTimeProp.setDateTime(new XMLGregorianCalendarImpl(new GregorianCalendar(offsetdt.getYear(), offsetdt.getMonthValue() - 1, offsetdt.getDayOfMonth(), offsetdt.getHour(), offsetdt.getMinute(), offsetdt.getSecond())));
         return dateTimeProp;
     }

@@ -1,18 +1,55 @@
-# NetBeans specific #
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-nbactions.xml
-nb-configuration.xml
+# Project-specific excludes
 
-# Class Files #
+# Compiled class file
 *.class
 
-# Package Files #
+# Log file
+*.log
+
+# Binaries
+*.7z
+*.dmg
+*.gz
+*.iso
 *.jar
 *.war
+*.rar
+*.nar
 *.ear
+*.tar
+*.tar.gz
+*.zip
+*.sar
 
+# Maven
+target/
 
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# eclipse project file
+.settings/
+.classpath
+.project
+
+# NetBeans specific
+nbproject/
+
+# OS
+.DS_Store
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Misc
+*.swp
+release.properties
+pom.xml.releaseBackup
+pom.xml.tag
+hs_err_pid*
