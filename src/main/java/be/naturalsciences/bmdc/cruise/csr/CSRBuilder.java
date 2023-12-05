@@ -14,10 +14,8 @@ import be.naturalsciences.bmdc.cruise.model.IOrganisation;
 import be.naturalsciences.bmdc.cruise.model.IPerson;
 import be.naturalsciences.bmdc.cruise.model.IProgram;
 import be.naturalsciences.bmdc.cruise.model.ITool;
-import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_INSPIRE_THEMES_PUBLICATION_DATE;
-import static be.naturalsciences.bmdc.metadata.iso.ISO19115DatasetBuilder.GEMET_INSPIRE_THEMES_THESAURUS_URL;
-import be.naturalsciences.bmdc.metadata.model.IKeyword;
-import be.naturalsciences.bmdc.metadata.model.Thesaurus;
+import be.naturalsciences.bmdc.cruise.csr.model.IKeyword;
+import be.naturalsciences.bmdc.cruise.csr.model.Thesaurus;
 //import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -168,12 +166,17 @@ import org.seadatanet.csr.org.seadatanet.SDNWaterBodyCodePropertyType;
  */
 public class CSRBuilder {
 
+    public static final Date GEMET_INSPIRE_THEMES_PUBLICATION_DATE = new GregorianCalendar(2008, Calendar.JUNE, 1)
+            .getTime();
+    public static final String GEMET_INSPIRE_THEMES_THESAURUS_URL = "http://www.eionet.europa.eu/gemet/inspire_themes";
+
     private DQDataQualityPropertyType getInspireDataQuality() {
         DQDataQualityPropertyType dqProp = gmd.createDQDataQualityPropertyType();
         DQDataQualityType dq = gmd.createDQDataQualityType();
         dqProp.setDQDataQuality(dq);
         MDScopeCodePropertyType scopeCode = new MDScopeCodePropertyType();
-        scopeCode.setMDScopeCode(gmd.createMDScopeCode(getCodeListValue(REALM_ISO_GMX, "MD_ScopeCode", "series", "series")));
+        scopeCode.setMDScopeCode(
+                gmd.createMDScopeCode(getCodeListValue(REALM_ISO_GMX, "MD_ScopeCode", "series", "series")));
         DQScopePropertyType dqScopeProp = gmd.createDQScopePropertyType();
         DQScopeType dqScope = gmd.createDQScopeType();
         dqScopeProp.setDQScope(dqScope);
@@ -184,7 +187,8 @@ public class CSRBuilder {
         dq.setLineage(lineageProp);
         LILineageType lineage = gmd.createLILineageType();
         lineageProp.setLILineage(lineage);
-        lineage.setStatement(getCS("The data centres apply standard data quality control procedures on all data that the centres manage. Ask the data centre for details."));
+        lineage.setStatement(getCS(
+                "The data centres apply standard data quality control procedures on all data that the centres manage. Ask the data centre for details."));
 
         DQElementPropertyType dqElProp = gmd.createDQElementPropertyType();
         dq.getReport().add(dqElProp);
@@ -200,7 +204,9 @@ public class CSRBuilder {
         resultProp.setAbstractDQResult(abstractDQResult);
         conformance.setExplanation(getCS("See the referenced specification"));
         conformance.setPass(getBoolean(true));
-        conformance.setSpecification(getShortCitation("COMMISSION REGULATION (EC) No 1205/2008 of 3 December 2008 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards metadata", new GregorianCalendar(2008, Calendar.DECEMBER, 4).getTime(), Thesaurus.PUBLICATION));
+        conformance.setSpecification(getShortCitation(
+                "COMMISSION REGULATION (EC) No 1205/2008 of 3 December 2008 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards metadata",
+                new GregorianCalendar(2008, Calendar.DECEMBER, 4).getTime(), Thesaurus.PUBLICATION));
 
         DQElementPropertyType dqElProp1089 = gmd.createDQElementPropertyType();
         dq.getReport().add(dqElProp1089);
@@ -212,11 +218,14 @@ public class CSRBuilder {
         DQResultPropertyType resultProp1089 = gmd.createDQResultPropertyType();
         domainConsistency1089.getResult().add(resultProp1089);
         DQConformanceResultType conformance1089 = gmd.createDQConformanceResultType();
-        JAXBElement<? extends AbstractDQResultType> abstractDQResult1089 = gmd.createDQConformanceResult(conformance1089);
+        JAXBElement<? extends AbstractDQResultType> abstractDQResult1089 = gmd
+                .createDQConformanceResult(conformance1089);
         resultProp1089.setAbstractDQResult(abstractDQResult1089);
         conformance1089.setExplanation(getCS("See the referenced specification"));
         conformance1089.setPass(getBoolean(true));
-        conformance1089.setSpecification(getShortCitation("COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards interoperability of spatial data sets and services", new GregorianCalendar(2008, Calendar.DECEMBER, 8).getTime(), Thesaurus.PUBLICATION));
+        conformance1089.setSpecification(getShortCitation(
+                "COMMISSION REGULATION (EU) No 1089/2010 of 23 November 2010 implementing Directive 2007/2/EC of the European Parliament and of the Council as regards interoperability of spatial data sets and services",
+                new GregorianCalendar(2008, Calendar.DECEMBER, 8).getTime(), Thesaurus.PUBLICATION));
 
         return dqProp;
     }
@@ -228,7 +237,9 @@ public class CSRBuilder {
     }
 
     public enum Role {
-        DISTRIBUTOR, RESOURCEPROVIDER, COAUTHOR, EDITOR, CONTRIBUTOR, OWNER, USER, STAKEHOLDER, RIGHTS_HOLDER, FUNDER, PUBLISHER, AUTHOR, POINT_OF_CONTACT, PRINCIPAL_INVESTIGATOR, MEDIATOR, PROCESSOR, ORIGINATOR, CUSTODIAN, COLLABORATOR, SPONSOR
+        DISTRIBUTOR, RESOURCEPROVIDER, COAUTHOR, EDITOR, CONTRIBUTOR, OWNER, USER, STAKEHOLDER, RIGHTS_HOLDER, FUNDER,
+        PUBLISHER, AUTHOR, POINT_OF_CONTACT, PRINCIPAL_INVESTIGATOR, MEDIATOR, PROCESSOR, ORIGINATOR, CUSTODIAN,
+        COLLABORATOR, SPONSOR
     }
 
     public static org.seadatanet.csr.org.isotc211._2005.gmd.ObjectFactory gmd = new org.seadatanet.csr.org.isotc211._2005.gmd.ObjectFactory();
@@ -257,16 +268,27 @@ public class CSRBuilder {
     public static Map<Role, CIRoleCodePropertyType> ROLES = new HashMap<>();
     public static MDKeywordsPropertyType OCEANOGRAPHIC_GEOGRAPHIC_FEATURES;
 
-    public static Thesaurus THESAURUS_GEMET = new Thesaurus("GEMET - INSPIRE themes, version 1.0", null, GEMET_INSPIRE_THEMES_THESAURUS_URL, GEMET_INSPIRE_THEMES_PUBLICATION_DATE, null, Thesaurus.PUBLICATION);
-    public static Thesaurus THESAURUS_C38 = new Thesaurus("SeaDataNet Ports Gazetteer", "C38", "", new GregorianCalendar(2017, Calendar.DECEMBER, 5).getTime(), "61", Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_C32 = new Thesaurus("International Standards Organisation countries", "C32", "", new GregorianCalendar(2020, Calendar.NOVEMBER, 18).getTime(), "10", Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_C17 = new Thesaurus("ICES Platform Codes", "C17", "", new GregorianCalendar(2018, Calendar.JUNE, 9).getTime(), "748", Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_L06 = new Thesaurus("SeaVoX Platform Categories", "L06", "", new GregorianCalendar(2018, Calendar.MARCH, 14).getTime(), "14", Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_EDMERP = new Thesaurus("European Directory of Marine Environmental Research Projects", "EDMERP", "", new GregorianCalendar(2013, Calendar.APRIL, 16).getTime(), null, Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_C19 = new Thesaurus("SeaVoX salt and fresh water body gazetteer", "C19", "", new GregorianCalendar(2018, Calendar.FEBRUARY, 21).getTime(), "17", Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_P02 = new Thesaurus("SeaDataNet Parameter Discovery Vocabulary", "P02", "", new GregorianCalendar(2018, Calendar.APRIL, 5).getTime(), "108", Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_L05 = new Thesaurus("SeaDataNet device categories", "L05", "", new GregorianCalendar(2018, Calendar.APRIL, 7).getTime(), "64", Thesaurus.REVISION);
-    public static Thesaurus THESAURUS_C37 = new Thesaurus("Ten-degree Marsden Squares", "C37", "", new GregorianCalendar(2009, Calendar.JANUARY, 9).getTime(), "3", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_GEMET = new Thesaurus("GEMET - INSPIRE themes, version 1.0", null,
+            GEMET_INSPIRE_THEMES_THESAURUS_URL, GEMET_INSPIRE_THEMES_PUBLICATION_DATE, null, Thesaurus.PUBLICATION);
+    public static Thesaurus THESAURUS_C38 = new Thesaurus("SeaDataNet Ports Gazetteer", "C38", "",
+            new GregorianCalendar(2017, Calendar.DECEMBER, 5).getTime(), "61", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_C32 = new Thesaurus("International Standards Organisation countries", "C32", "",
+            new GregorianCalendar(2020, Calendar.NOVEMBER, 18).getTime(), "10", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_C17 = new Thesaurus("ICES Platform Codes", "C17", "",
+            new GregorianCalendar(2018, Calendar.JUNE, 9).getTime(), "748", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_L06 = new Thesaurus("SeaVoX Platform Categories", "L06", "",
+            new GregorianCalendar(2018, Calendar.MARCH, 14).getTime(), "14", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_EDMERP = new Thesaurus(
+            "European Directory of Marine Environmental Research Projects", "EDMERP", "",
+            new GregorianCalendar(2013, Calendar.APRIL, 16).getTime(), null, Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_C19 = new Thesaurus("SeaVoX salt and fresh water body gazetteer", "C19", "",
+            new GregorianCalendar(2018, Calendar.FEBRUARY, 21).getTime(), "17", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_P02 = new Thesaurus("SeaDataNet Parameter Discovery Vocabulary", "P02", "",
+            new GregorianCalendar(2018, Calendar.APRIL, 5).getTime(), "108", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_L05 = new Thesaurus("SeaDataNet device categories", "L05", "",
+            new GregorianCalendar(2018, Calendar.APRIL, 7).getTime(), "64", Thesaurus.REVISION);
+    public static Thesaurus THESAURUS_C37 = new Thesaurus("Ten-degree Marsden Squares", "C37", "",
+            new GregorianCalendar(2009, Calendar.JANUARY, 9).getTime(), "3", Thesaurus.REVISION);
     public static ILicense UN;
 
     private ICruise cruise;
@@ -287,27 +309,33 @@ public class CSRBuilder {
         return defaultMessages;
     }
 
-    public CSRBuilder(ICruise cruise, ILicense license, boolean fillErrorsWithDefaults) throws IllegalCSRArgumentException {
+    public CSRBuilder(ICruise cruise, ILicense license, boolean fillErrorsWithDefaults)
+            throws IllegalCSRArgumentException {
 
         if (cruise.getDataUrl() != null && (cruise.getDataUrl().equals("null") || cruise.getDataUrl().equals(""))) {
             cruise.setDataUrl(null);
         }
-        if (cruise.getFinalReportUrl() != null && (cruise.getFinalReportUrl().equals("null") || cruise.getFinalReportUrl().equals(""))) {
+        if (cruise.getFinalReportUrl() != null
+                && (cruise.getFinalReportUrl().equals("null") || cruise.getFinalReportUrl().equals(""))) {
             cruise.setFinalReportUrl(null);
         }
-        if (cruise.getObjectives() != null && (cruise.getObjectives().equals("null") || cruise.getObjectives().equals(""))) {
+        if (cruise.getObjectives() != null
+                && (cruise.getObjectives().equals("null") || cruise.getObjectives().equals(""))) {
             cruise.setObjectives(null);
         }
-        if (cruise.getPlanningUrl() != null && (cruise.getPlanningUrl().equals("null") || cruise.getPlanningUrl().equals(""))) {
+        if (cruise.getPlanningUrl() != null
+                && (cruise.getPlanningUrl().equals("null") || cruise.getPlanningUrl().equals(""))) {
             cruise.setPlanningUrl(null);
         }
         if (cruise.getPurpose() != null && (cruise.getPurpose().equals("null") || cruise.getPurpose().equals(""))) {
             cruise.setPurpose(null);
         }
-        if (cruise.getTrackGmlUrl() != null && (cruise.getTrackGmlUrl().equals("null") || cruise.getTrackGmlUrl().equals(""))) {
+        if (cruise.getTrackGmlUrl() != null
+                && (cruise.getTrackGmlUrl().equals("null") || cruise.getTrackGmlUrl().equals(""))) {
             cruise.setTrackGmlUrl(null);
         }
-        if (cruise.getTrackImageUrl() != null && (cruise.getTrackImageUrl().equals("null") || cruise.getTrackImageUrl().equals(""))) {
+        if (cruise.getTrackImageUrl() != null
+                && (cruise.getTrackImageUrl().equals("null") || cruise.getTrackImageUrl().equals(""))) {
             cruise.setTrackImageUrl(null);
         }
 
@@ -327,7 +355,8 @@ public class CSRBuilder {
         if (cruise.getEndDate() == null) {
             invalidArguments.add("Cruise must have an end date.");
         }
-        if (cruise.getObjectives() == null && !cruise.getPrograms().stream().anyMatch(p -> p.getDescription() != null)) {
+        if (cruise.getObjectives() == null
+                && !cruise.getPrograms().stream().anyMatch(p -> p.getDescription() != null)) {
             invalidArguments.add("Cruise or at least one of the programs must have an objective.");
         }
         if (cruise.getDepartureHarbour() == null) {
@@ -336,10 +365,12 @@ public class CSRBuilder {
         if (cruise.getArrivalHarbour() == null) {
             invalidArguments.add("Cruise must have a arrival harbour.");
         }
-        if (cruise.getDepartureHarbour().getTerm() == null && cruise.getDepartureHarbour().getTerm().getIdentifier() == null) {
+        if (cruise.getDepartureHarbour().getTerm() == null
+                && cruise.getDepartureHarbour().getTerm().getIdentifier() == null) {
             invalidArguments.add("Cruise must have a departure harbour with a valid identifier.");
         }
-        if (cruise.getArrivalHarbour().getTerm() == null && cruise.getArrivalHarbour().getTerm().getIdentifier() == null) {
+        if (cruise.getArrivalHarbour().getTerm() == null
+                && cruise.getArrivalHarbour().getTerm().getIdentifier() == null) {
             invalidArguments.add("Cruise must have a arrival harbour with a valid identifier.");
         }
         if (cruise.getPlatform() == null) {
@@ -357,13 +388,15 @@ public class CSRBuilder {
         if (cruise.getSeaAreas() == null || cruise.getSeaAreas().isEmpty()) {
             invalidArguments.add("Cruise must have one or more sea areas.");
         }
-        if (cruise.getSouthBoundLatitude() == 0 || cruise.getNorthBoundLatitude() == 0 || cruise.getWestBoundLongitude() == 0 || cruise.getEastBoundLongitude() == 0) {
+        if (cruise.getSouthBoundLatitude() == 0 || cruise.getNorthBoundLatitude() == 0
+                || cruise.getWestBoundLongitude() == 0 || cruise.getEastBoundLongitude() == 0) {
             if (fillErrorsWithDefaults) {
                 cruise.setSouthBoundLatitude(-90);
                 cruise.setNorthBoundLatitude(90);
                 cruise.setWestBoundLongitude(-180);
                 cruise.setEastBoundLongitude(180);
-                defaultMessages.add("No valid bounding box provided. Bounding box filled with defaults!: -180, -90, 180, 90");
+                defaultMessages
+                        .add("No valid bounding box provided. Bounding box filled with defaults!: -180, -90, 180, 90");
             } else {
                 invalidArguments.add("Cruise must have a bounding box.");
             }
@@ -397,7 +430,8 @@ public class CSRBuilder {
         this.cruise = cruise;
         this.license = license;
         CIRoleCodePropertyType resourceProvider = new CIRoleCodePropertyType();
-        resourceProvider.setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "resourceProvider", "resourceProvider"));
+        resourceProvider
+                .setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "resourceProvider", "resourceProvider"));
 
         CIRoleCodePropertyType publisher = new CIRoleCodePropertyType();
         publisher.setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "publisher", "publisher"));
@@ -421,10 +455,12 @@ public class CSRBuilder {
         originator.setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "originator", "originator"));
 
         CIRoleCodePropertyType pointOfContact = new CIRoleCodePropertyType();
-        pointOfContact.setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "pointOfContact", "pointOfContact"));
+        pointOfContact
+                .setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "pointOfContact", "pointOfContact"));
 
         CIRoleCodePropertyType principalInvestigator = new CIRoleCodePropertyType();
-        principalInvestigator.setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "principalInvestigator", "principalInvestigator"));
+        principalInvestigator.setCIRoleCode(
+                getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "principalInvestigator", "principalInvestigator"));
 
         CIRoleCodePropertyType processor = new CIRoleCodePropertyType();
         processor.setCIRoleCode(getCodeListValue(REALM_ISO_GMX, "CI_RoleCode", "processor", "processor"));
@@ -441,41 +477,31 @@ public class CSRBuilder {
         ROLES.put(Role.PRINCIPAL_INVESTIGATOR, principalInvestigator);
         ROLES.put(Role.PROCESSOR, processor);
 
-        OCEANOGRAPHIC_GEOGRAPHIC_FEATURES = getKeyword(Arrays.asList(new String[]{"Oceanographic geographical features"}), "theme", THESAURUS_GEMET);
+        OCEANOGRAPHIC_GEOGRAPHIC_FEATURES = getKeyword(
+                Arrays.asList(new String[] { "Oceanographic geographical features" }), "theme", THESAURUS_GEMET);
 
         KEYWORD_TYPES
-                .put("departure_place", SDNPortCodePropertyType.class
-                );
+                .put("departure_place", SDNPortCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "arrival_place", SDNPortCodePropertyType.class
-        );
+                "arrival_place", SDNPortCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "departure_country", SDNCountryCodePropertyType.class
-        );
+                "departure_country", SDNCountryCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "arrival_country", SDNCountryCodePropertyType.class
-        );
+                "arrival_country", SDNCountryCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "platform", SDNPlatformCodePropertyType.class
-        );
+                "platform", SDNPlatformCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "platform_class", SDNPlatformCategoryCodePropertyType.class
-        );
+                "platform_class", SDNPlatformCategoryCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "project", SDNEDMERPCodePropertyType.class
-        );
+                "project", SDNEDMERPCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "place", SDNWaterBodyCodePropertyType.class
-        );
+                "place", SDNWaterBodyCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "marsden_square", SDNMarsdenCodePropertyType.class
-        );
+                "marsden_square", SDNMarsdenCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "parameter", SDNParameterDiscoveryCodePropertyType.class
-        );
+                "parameter", SDNParameterDiscoveryCodePropertyType.class);
         KEYWORD_TYPES.put(
-                "instrument", SDNDeviceCategoryCodePropertyType.class
-        );
+                "instrument", SDNDeviceCategoryCodePropertyType.class);
     }
 
     public JAXBElement<String> getJaxbCS(String string) {
@@ -512,7 +538,8 @@ public class CSRBuilder {
         return r;
     }
 
-    public CodeListValueType getCodeListValue(CodeListRealm codeListRealm, String codeListHashtag, String codeListValue, String value) {
+    public CodeListValueType getCodeListValue(CodeListRealm codeListRealm, String codeListHashtag, String codeListValue,
+            String value) {
         String codespaceUrl = codeListRealm.codeList;
         return getCodeListValue(codeListRealm.codeSpace, codespaceUrl + "#" + codeListHashtag, codeListValue, value);
     }
@@ -613,12 +640,14 @@ public class CSRBuilder {
 
         if (organisation != null) {
             organisationName = organisation.getTerm().getName();
-            organisationIdentifier = ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(organisation.getTerm().getIdentifier());
+            organisationIdentifier = ILinkedDataTerm
+                    .getIdentifierFromNERCorSDNUrlOrUrn(organisation.getTerm().getIdentifier());
             deliveryPoint = organisation._getDeliveryPoint();
             city = organisation._getCity();
             postalCode = organisation._getPostalcode();
             country = organisation._getCountry().getTerm().getName();
-            sdnCountryCode = ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(organisation._getCountry().getTerm().getIdentifier());
+            sdnCountryCode = ILinkedDataTerm
+                    .getIdentifierFromNERCorSDNUrlOrUrn(organisation._getCountry().getTerm().getIdentifier());
             website = organisation._getWebsite();
 
             phoneNumber = organisation._getPhoneNumber();
@@ -639,7 +668,8 @@ public class CSRBuilder {
 
         CIResponsiblePartyType party = new CIResponsiblePartyType();
         if (organisationName != null) {
-            CodeListValueType edmoCode = getCodeListValue(REALM_SDN_EDMO_EDMERP, "SDN_EDMOCode", organisationIdentifier, organisationName);
+            CodeListValueType edmoCode = getCodeListValue(REALM_SDN_EDMO_EDMERP, "SDN_EDMOCode", organisationIdentifier,
+                    organisationName);
             SDNEDMOCodePropertyType sdnEdmoCode = new SDNEDMOCodePropertyType();
             sdnEdmoCode.set(edmoCode);
             party.setOrganisationName(sdnEdmoCode);
@@ -647,7 +677,8 @@ public class CSRBuilder {
         if (firstName != null && lastName != null) {
             party.setIndividualName(getCS(firstName + " " + lastName));
         }
-        if (phoneNumber != null || faxNumber != null || deliveryPoint != null || city != null || postalCode != null || sdnCountryCode != null || website != null) {
+        if (phoneNumber != null || faxNumber != null || deliveryPoint != null || city != null || postalCode != null
+                || sdnCountryCode != null || website != null) {
             CIContactPropertyType contactProp = new CIContactPropertyType();
             CIContactType contact = new CIContactType();
             CITelephonePropertyType phoneProp = new CITelephonePropertyType();
@@ -673,7 +704,8 @@ public class CSRBuilder {
                     add.setPostalCode(getCS(postalCode));
                 }
                 if (sdnCountryCode != null) {
-                    CodeListValueType countryCode = getCodeListValue(REALM_SDN_CDI_CSR, "SDN_CountryCode", country, sdnCountryCode);
+                    CodeListValueType countryCode = getCodeListValue(REALM_SDN_CDI_CSR, "SDN_CountryCode", country,
+                            sdnCountryCode);
                     SDNCountryCodePropertyType countryCodeSdn = new SDNCountryCodePropertyType();
                     countryCodeSdn.set(countryCode);
                     add.setCountry(countryCodeSdn);
@@ -729,7 +761,7 @@ public class CSRBuilder {
     }
 
     private RealmAndHashTag SDNKeywordTypeToRealmAndHashTag(String type) {
-        Class< SDNKeyword> sdnKeywordClass = KEYWORD_TYPES.get(type);
+        Class<SDNKeyword> sdnKeywordClass = KEYWORD_TYPES.get(type);
         if (sdnKeywordClass != null) {
             String codeListHashTag = null;
             try {
@@ -764,7 +796,8 @@ public class CSRBuilder {
      * @param thesaurus
      * @return
      */
-    public <S extends SDNKeyword> MDKeywordsPropertyTypeSDN getSDNKeyword(Collection<? extends ILinkedDataTerm> keywords, String type, Thesaurus thesaurus) {
+    public <S extends SDNKeyword> MDKeywordsPropertyTypeSDN getSDNKeyword(
+            Collection<? extends ILinkedDataTerm> keywords, String type, Thesaurus thesaurus) {
         MDKeywordsPropertyTypeSDN individualKeywordProp = null;
         if (keywords != null && !keywords.isEmpty()) {
 
@@ -776,7 +809,7 @@ public class CSRBuilder {
             individualKeyword.setType(keywordTypeProp);
 
             RealmAndHashTag realmAndHashTag = SDNKeywordTypeToRealmAndHashTag(type);
-            Class< S> sdnKeywordClass = KEYWORD_TYPES.get(type);
+            Class<S> sdnKeywordClass = KEYWORD_TYPES.get(type);
             S sdnKeyword = null;
             try {
                 sdnKeyword = sdnKeywordClass.newInstance();
@@ -786,7 +819,9 @@ public class CSRBuilder {
                 Logger.getLogger(CSRBuilder.class.getName()).log(Level.SEVERE, null, ex);
             }
             for (ILinkedDataTerm keyword : keywords) {
-                sdnKeyword.set(getCodeListValue(realmAndHashTag.realm, realmAndHashTag.codeListHashTag, ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(keyword.getIdentifier()), keyword.getName()));
+                sdnKeyword.set(getCodeListValue(realmAndHashTag.realm, realmAndHashTag.codeListHashTag,
+                        ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(keyword.getIdentifier()),
+                        keyword.getName()));
                 individualKeyword.getKeyword().add(sdnKeyword);
 
             }
@@ -796,7 +831,8 @@ public class CSRBuilder {
         return individualKeywordProp;
     }
 
-    public MDKeywordsPropertyType getAnchorKeyword(Collection<? extends ILinkedDataTerm> keywords, String type, Thesaurus thesaurus) {
+    public MDKeywordsPropertyType getAnchorKeyword(Collection<? extends ILinkedDataTerm> keywords, String type,
+            Thesaurus thesaurus) {
         if (keywords != null && !keywords.isEmpty()) {
             MDKeywordsPropertyType individualKeywordProp = new MDKeywordsPropertyType();
             MDKeywordsType individualKeyword = new MDKeywordsType();
@@ -822,8 +858,7 @@ public class CSRBuilder {
 
                 individualKeyword.getKeyword().add(c);
             }
-            if (thesaurus
-                    != null && !thesaurus.equals(Thesaurus.NO_THESAURUS)) {
+            if (thesaurus != null && !thesaurus.equals(Thesaurus.NO_THESAURUS)) {
                 individualKeyword.setThesaurusName(getThesaurusCitation(thesaurus));
             }
             CodeListValueType keywordType = getCodeListValue(REALM_SDN_GMX, "MD_KeywordTypeCode", type, type);
@@ -855,7 +890,7 @@ public class CSRBuilder {
     public Collection<MDKeywordsPropertyType> getKeywords(Collection<IKeyword> keywords) {
         Collection<MDKeywordsPropertyType> allKeywords = new LinkedHashSet<>();
         if (keywords != null && !keywords.isEmpty()) {
-            Map< Thesaurus, List<IKeyword>> intKeywords = new HashMap<>(); //order by thesaurus
+            Map<Thesaurus, List<IKeyword>> intKeywords = new HashMap<>(); //order by thesaurus
             for (IKeyword keyword : keywords) {
                 Thesaurus thesaurus = keyword.getThesaurus();
                 List<IKeyword> get = intKeywords.get(thesaurus);
@@ -874,7 +909,7 @@ public class CSRBuilder {
                 for (IKeyword iKeyword : keywordList) {
                     String prefLabel = iKeyword.getPrefLabel();
                     String type = iKeyword.getType();
-                    allKeywords.add(getKeyword(Arrays.asList(new String[]{prefLabel}), type, thesaurus));
+                    allKeywords.add(getKeyword(Arrays.asList(new String[] { prefLabel }), type, thesaurus));
                 }
             }
         }
@@ -891,7 +926,8 @@ public class CSRBuilder {
         return browseGraphicProp;
     }
 
-    private MIEventPropertyType getEvent(String identifier, CodeListValueType trigger, CodeListValueType context, CodeListValueType sequence, OffsetDateTime dateTime) {
+    private MIEventPropertyType getEvent(String identifier, CodeListValueType trigger, CodeListValueType context,
+            CodeListValueType sequence, OffsetDateTime dateTime) {
 
         MIEventPropertyType eventProp = gmi.createMIEventPropertyType();
         MIEventType event = gmi.createMIEventType();
@@ -919,13 +955,15 @@ public class CSRBuilder {
         operation.setDescription(getCS(cruise.getObjectives()));
         operation.setCitation(getShortCruiseCitation());
         MDProgressCodePropertyType progressCodeProp = gmd.createMDProgressCodePropertyType();
-        progressCodeProp.setMDProgressCode(getCodeListValue(REALM_SDN_GMX, "MD_ProgressCode", "completed", "completed"));
+        progressCodeProp
+                .setMDProgressCode(getCodeListValue(REALM_SDN_GMX, "MD_ProgressCode", "completed", "completed"));
         operation.setStatus(progressCodeProp);
         CodeListValueType trigger = getCodeListValue(REALM_ISO_GMI, "MI_TriggerCode", "manual", "manual");
         CodeListValueType context = getCodeListValue(REALM_ISO_GMI, "MI_ContextCode", "wayPoint", "wayPoint");
         CodeListValueType sequenceStart = getCodeListValue(REALM_ISO_GMI, "MI_SequenceCode", "start", "start");
         CodeListValueType sequenceEnd = getCodeListValue(REALM_ISO_GMI, "MI_SequenceCode", "end", "end");
-        operation.getSignificantEvent().add(getEvent("cruise-start", trigger, context, sequenceStart, cruise.getStartDate()));
+        operation.getSignificantEvent()
+                .add(getEvent("cruise-start", trigger, context, sequenceStart, cruise.getStartDate()));
         operation.getSignificantEvent().add(getEvent("cruise-end", trigger, context, sequenceEnd, cruise.getEndDate()));
         operationProp.setMIOperation(operation);
         return operationProp;
@@ -934,22 +972,29 @@ public class CSRBuilder {
     //group all events by their tool models and sampling/deployment date and expose a grouping of all events for that day
     private MIObjectivePropertyType getEventObjective(CSRObjective cSRobjective, OffsetDateTime day) {
         String toolName = cSRobjective.getTool().getTerm().getName();
-        String toolIdentifier = ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getTool().getTerm().getIdentifier());
-        String c77Identifier = ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPurpose().getIdentifier());
+        String toolIdentifier = ILinkedDataTerm
+                .getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getTool().getTerm().getIdentifier());
+        String c77Identifier = ILinkedDataTerm
+                .getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPurpose().getIdentifier());
         String c77Name = cSRobjective.getPurpose().getName();
         String objectiveIdentifier = getCSRIdentifierWithDots() + ".objective." + c77Identifier;
         String eventIdentifier = getCSRIdentifierWithDots() + ".event." + c77Identifier;
-        Set<String> objectives = cSRobjective.getEvents().stream().map(IEvent::getDescription).collect(Collectors.toSet());
+        Set<String> objectives = cSRobjective.getEvents().stream().map(IEvent::getDescription)
+                .collect(Collectors.toSet());
         String functionName = c77Name + " with " + toolName;
         if (objectives.toArray()[0].equals("-") || (objectives.size() == 1 && cSRobjective.getEvents().size() > 1)) { //if all the events have the same description and there is more than 1 event, then set the function to the descriptions.
             functionName = (String) objectives.toArray()[0];
         }
 
         String sensingInstrumentIdentifier = c77Identifier;//getCSRIdentifierWithDots() + ".objective." + c77Identifier + ".instrument." + toolIdentifier;
-        String instituteIdentifier = cSRobjective.getPi() == null ? null : "SDN:EDMO::" + ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPi().getOrganisation().getTerm().getIdentifier());
-        String instituteName = cSRobjective.getPi() == null ? null : cSRobjective.getPi().getOrganisation().getTerm().getName();
+        String instituteIdentifier = cSRobjective.getPi() == null ? null
+                : "SDN:EDMO::" + ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(
+                        cSRobjective.getPi().getOrganisation().getTerm().getIdentifier());
+        String instituteName = cSRobjective.getPi() == null ? null
+                : cSRobjective.getPi().getOrganisation().getTerm().getName();
 
-        String platformIdentifier = c77Identifier + "/" + ILinkedDataTerm.getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPi().getOrganisation().getTerm().getIdentifier());
+        String platformIdentifier = c77Identifier + "/" + ILinkedDataTerm
+                .getIdentifierFromNERCorSDNUrlOrUrn(cSRobjective.getPi().getOrganisation().getTerm().getIdentifier());
         String platformDescription = c77Name + ", conducted by " + instituteName;
         if (objectives.toArray()[0].equals("-") || (objectives.size() == 1 && cSRobjective.getEvents().size() > 1)) { //if all the events have the same description and there is more than 1 event, then set the function to the descriptions.
             platformDescription = (String) objectives.toArray()[0];
@@ -965,11 +1010,14 @@ public class CSRBuilder {
         identifiers.add(getIdentifier(objectiveIdentifier)); //event identifier; example uses "objective-instrument-7-B18-1478"
 
         final List<MIObjectiveTypeCodePropertyType> types = objective.getType();
-        final MIObjectiveTypeCodePropertyType MIObjectiveTypeCodePropertyType = gmi.createMIObjectiveTypeCodePropertyType();
+        final MIObjectiveTypeCodePropertyType MIObjectiveTypeCodePropertyType = gmi
+                .createMIObjectiveTypeCodePropertyType();
         if (cSRobjective.getProcessName().equals("Deployment")) {
-            MIObjectiveTypeCodePropertyType.setMIObjectiveTypeCode(getCodeListValue(REALM_ISO_GMI, "MI_ObjectiveTypeCode", "persistentView", "persistentView"));
+            MIObjectiveTypeCodePropertyType.setMIObjectiveTypeCode(
+                    getCodeListValue(REALM_ISO_GMI, "MI_ObjectiveTypeCode", "persistentView", "persistentView"));
         } else {
-            MIObjectiveTypeCodePropertyType.setMIObjectiveTypeCode(getCodeListValue(REALM_ISO_GMI, "MI_ObjectiveTypeCode", "instantaneousCollection", "instantaneousCollection"));
+            MIObjectiveTypeCodePropertyType.setMIObjectiveTypeCode(getCodeListValue(REALM_ISO_GMI,
+                    "MI_ObjectiveTypeCode", "instantaneousCollection", "instantaneousCollection"));
         }
         types.add(MIObjectiveTypeCodePropertyType);
 
@@ -981,8 +1029,10 @@ public class CSRBuilder {
         sensingInstrument.setId(sensingInstrumentIdentifier);
         sensingInstrument.setIdentifier(getIdentifier(sensingInstrumentIdentifier));
 
-        final SDNDataCategoryCodePropertyType sDNDataCategoryCodePropertyType = sdn.createSDNDataCategoryCodePropertyType();
-        sDNDataCategoryCodePropertyType.setSDNDataCategoryCode(getCodeListValue(REALM_SDN_CDI_CSR, "SDN_DataCategoryCode", c77Identifier, c77Name));
+        final SDNDataCategoryCodePropertyType sDNDataCategoryCodePropertyType = sdn
+                .createSDNDataCategoryCodePropertyType();
+        sDNDataCategoryCodePropertyType.setSDNDataCategoryCode(
+                getCodeListValue(REALM_SDN_CDI_CSR, "SDN_DataCategoryCode", c77Identifier, c77Name));
         sensingInstrument.setType(sDNDataCategoryCodePropertyType);
         if (instituteIdentifier != null) {
             final MIPlatformPropertyType mIPlatformPropertyType = gmi.createMIPlatformPropertyType();
@@ -1002,18 +1052,19 @@ public class CSRBuilder {
         final List<MIEventPropertyType> objectiveOccurrences = objective.getObjectiveOccurrence();
         CodeListValueType trigger = getCodeListValue(REALM_ISO_GMI, "MI_TriggerCode", "manual", "manual");
         CodeListValueType context = getCodeListValue(REALM_ISO_GMI, "MI_ContextCode", "acquisition", "acquisition");
-        CodeListValueType sequenceInstantaneous = getCodeListValue(REALM_ISO_GMI, "MI_SequenceCode", "instantaneous", "instantaneous");
+        CodeListValueType sequenceInstantaneous = getCodeListValue(REALM_ISO_GMI, "MI_SequenceCode", "instantaneous",
+                "instantaneous");
         objectiveOccurrences.add(getEvent(eventIdentifier, trigger, context, sequenceInstantaneous, day));
         SDNSamplingActivityType SDNSamplingActivityType = sdn.createSDNSamplingActivityType();
         final BigDecimal nbEvents = BigDecimal.valueOf(cSRobjective.getEvents().size());
         SDNSamplingActivityType.setQuantity(nbEvents);
         SDNCSRUnitCodePropertyType SDNCSRUnitCodePropertyType = sdn.createSDNCSRUnitCodePropertyType();
-        SDNCSRUnitCodePropertyType.setSDNCSRUnitCode(getCodeListValue(REALM_SDN_CDI_CSR, "SDN_CSRUnitCode", cSRobjective.getL18Identifier(), cSRobjective.getL18Name()));
+        SDNCSRUnitCodePropertyType.setSDNCSRUnitCode(getCodeListValue(REALM_SDN_CDI_CSR, "SDN_CSRUnitCode",
+                cSRobjective.getL18Identifier(), cSRobjective.getL18Name()));
         SDNSamplingActivityType.setUnit(SDNCSRUnitCodePropertyType);
         objective.setSDNSamplingActivity(SDNSamplingActivityType);
         return objectiveProp;
     }
-
 
     private MIAcquisitionInformationPropertyType getAcquisitionInformation(Map<MultiKey, CSRObjective> objectives) {
         MIAcquisitionInformationPropertyType acqProp = gmi.createMIAcquisitionInformationPropertyType();
@@ -1044,16 +1095,19 @@ public class CSRBuilder {
         csr.setCharacterSet(characterSet);
         /*Hierarchy Level*/
         MDScopeCodePropertyType scopeCode = new MDScopeCodePropertyType();
-        scopeCode.setMDScopeCode(gmd.createMDScopeCode(getCodeListValue(REALM_ISO_GMX, "MD_ScopeCode", "series", "series")));
+        scopeCode.setMDScopeCode(
+                gmd.createMDScopeCode(getCodeListValue(REALM_ISO_GMX, "MD_ScopeCode", "series", "series")));
         csr.getHierarchyLevel().add(scopeCode);
         /*Hierarchy Level Name*/
-        CodeListValueType hierarchyLevelNameCode = getCodeListValue(REALM_SDN_CDI_CSR, "SDN_HierarchyLevelNameCode", "CSR", "Cruise Summary record");
+        CodeListValueType hierarchyLevelNameCode = getCodeListValue(REALM_SDN_CDI_CSR, "SDN_HierarchyLevelNameCode",
+                "CSR", "Cruise Summary record");
         SDNHierarchyLevelNameCodePropertyType createSDNHierarchyLevelNameCodePropertyType = new SDNHierarchyLevelNameCodePropertyType();
         createSDNHierarchyLevelNameCodePropertyType.setSDNHierarchyLevelNameCode(hierarchyLevelNameCode);
         csr.getHierarchyLevelName().add(createSDNHierarchyLevelNameCodePropertyType);
         /*Metadata contact*/
         IOrganisation metadataResponsible = cruise.getCollateCentre();
-        CIResponsiblePartyPropertyType responsibleParty = getResponsibleParty(metadataResponsible, Role.POINT_OF_CONTACT);
+        CIResponsiblePartyPropertyType responsibleParty = getResponsibleParty(metadataResponsible,
+                Role.POINT_OF_CONTACT);
         csr.getContact().add(responsibleParty);
 
         /*Datestamp*/
@@ -1062,7 +1116,8 @@ public class CSRBuilder {
         csr.setMetadataStandardName(getCS("ISO 19115/SeaDataNet profile"));
         csr.setMetadataStandardVersion(getCS("1.0"));
         MDMetadataExtensionInformationPropertyType mdExtProp = new MDMetadataExtensionInformationPropertyType();
-        mdExtProp.setHref("http://schemas.seadatanet.org/Standards-Software/Metadata-formats/csrExtensionInformation.xml");
+        mdExtProp.setHref(
+                "http://schemas.seadatanet.org/Standards-Software/Metadata-formats/csrExtensionInformation.xml");
         csr.getMetadataExtensionInfo().add(mdExtProp);
         /*IdentificationInfo*/
         csr.getIdentificationInfo().add(getIdentificationInfo());
@@ -1098,7 +1153,8 @@ public class CSRBuilder {
                             cSRObjective.setPi(pi);
                             cSRObjective.setPurpose(event.getSubject());
                             cSRObjective.addEvent(event);
-                            if (event.getToolCategory().getIdentifier().equals(cSRObjective.getToolCategoryIdentifier())) {
+                            if (event.getToolCategory().getIdentifier()
+                                    .equals(cSRObjective.getToolCategoryIdentifier())) {
                                 cSRObjective.setTool(tool);
                                 cSRObjective.setPi(pi);
                                 cSRObjective.setPurpose(event.getSubject());
@@ -1201,25 +1257,25 @@ public class CSRBuilder {
         DateTimePropertyType dateTimeProp = gco.createDateTimePropertyType();
         //XMLGregorianCalendar xmlGregorianCalendar = null; //new XMLGregorianCalendarImpl();
         //try {
-        GregorianCalendar gregorianCalendar= GregorianCalendar.from(offsetdt.toZonedDateTime());
+        GregorianCalendar gregorianCalendar = GregorianCalendar.from(offsetdt.toZonedDateTime());
         try {
-            XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(gregorianCalendar);
+            XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance()
+                    .newXMLGregorianCalendar(gregorianCalendar);
             dateTimeProp.setDateTime(xmlGregorianCalendar);
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }
-            /*cal.setYear(offsetdt.getYear());
-            cal.setMonth(offsetdt.getMonthValue());
-            cal.setDay(offsetdt.getDayOfMonth());
-            cal.setHour(offsetdt.getHour());
-            cal.setMinute(offsetdt.getMinute());
-            cal.setSecond(offsetdt.getSecond());
-            cal.setTimezone(offsetdt.getOffset().getTotalSeconds() / 60);
-            */
+        /*cal.setYear(offsetdt.getYear());
+        cal.setMonth(offsetdt.getMonthValue());
+        cal.setDay(offsetdt.getDayOfMonth());
+        cal.setHour(offsetdt.getHour());
+        cal.setMinute(offsetdt.getMinute());
+        cal.setSecond(offsetdt.getSecond());
+        cal.setTimezone(offsetdt.getOffset().getTotalSeconds() / 60);
+        */
         //} catch (DatatypeConfigurationException e) {
         //    e.printStackTrace();
         //}
-
 
         //  dateTimeProp.setDateTime(new XMLGregorianCalendarImpl(new GregorianCalendar(offsetdt.getYear(), offsetdt.getMonthValue() - 1, offsetdt.getDayOfMonth(), offsetdt.getHour(), offsetdt.getMinute(), offsetdt.getSecond())));
         return dateTimeProp;
@@ -1255,7 +1311,8 @@ public class CSRBuilder {
 
         extent.getTemporalElement().add(getTemporalExtent(cruise.getStartDate(), cruise.getEndDate()));
 
-        extent.getGeographicElement().add(getGeographicExtent(cruise.getSouthBoundLatitude(), cruise.getNorthBoundLatitude(), cruise.getWestBoundLongitude(), cruise.getEastBoundLongitude()));
+        extent.getGeographicElement().add(getGeographicExtent(cruise.getSouthBoundLatitude(),
+                cruise.getNorthBoundLatitude(), cruise.getWestBoundLongitude(), cruise.getEastBoundLongitude()));
         if (cruise.getTrack() != null) {
             extent.getGeographicElement().add(getBoundingPolygon(cruise.getTrack()));
         }
@@ -1278,54 +1335,59 @@ public class CSRBuilder {
         for (IPerson principalInvestigator : principalInvestigators) {
             sdnId.getPointOfContact().add(getResponsibleParty(principalInvestigator, Role.POINT_OF_CONTACT));
         }*/
- /*Dataset browsegraphic*/
+        /*Dataset browsegraphic*/
         //Ifremer CSR site doesn't like this
         /* if (cruise.getTrackImageUrl() != null) {
             sdnId.getGraphicOverview().add(getBrowseGraphic(cruise.getTrackImageUrl(), "Image of the track", cruise.getTrackImageUrl().substring(cruise.getTrackImageUrl().length() - 3, cruise.getTrackImageUrl().length())));
         } else if (cruise.getTrackGmlUrl() != null) {
             sdnId.getGraphicOverview().add(getBrowseGraphic(cruise.getTrackGmlUrl(), "GML track", "GML"));
         }*/
- /*Dataset Keywords*/
+        /*Dataset Keywords*/
         if (OCEANOGRAPHIC_GEOGRAPHIC_FEATURES != null) {
             sdnId.getDescriptiveKeywords().add(OCEANOGRAPHIC_GEOGRAPHIC_FEATURES);
         }
 
-        List<ILinkedDataTerm> departureHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour().getTerm()});
+        List<ILinkedDataTerm> departureHarbours = Arrays
+                .asList(new ILinkedDataTerm[] { cruise.getDepartureHarbour().getTerm() });
         MDKeywordsPropertyType kw = getAnchorKeyword(departureHarbours, "departure_place", THESAURUS_C38);
         if (kw != null) {
             sdnId.getDescriptiveKeywords().add(kw);
         }
         //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureHarbours, "departure_place", THESAURUS_C38));
 
-        List<ILinkedDataTerm> arrivalHarbours = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour().getTerm()});
+        List<ILinkedDataTerm> arrivalHarbours = Arrays
+                .asList(new ILinkedDataTerm[] { cruise.getArrivalHarbour().getTerm() });
         MDKeywordsPropertyType kw2 = getAnchorKeyword(arrivalHarbours, "arrival_place", THESAURUS_C38);
         if (kw2 != null) {
             sdnId.getDescriptiveKeywords().add(kw2);
         }
         //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalHarbours, "arrival_place", THESAURUS_C38));
 
-        List<ILinkedDataTerm> departureCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getDepartureHarbour()._getCountry().getTerm()});
+        List<ILinkedDataTerm> departureCountries = Arrays
+                .asList(new ILinkedDataTerm[] { cruise.getDepartureHarbour()._getCountry().getTerm() });
         MDKeywordsPropertyType kw3 = getAnchorKeyword(departureCountries, "departure_country", THESAURUS_C32);
         if (kw3 != null) {
             sdnId.getDescriptiveKeywords().add(kw3);
         }
         //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(departureCountries, "departure_country", THESAURUS_C32));
 
-        List<ILinkedDataTerm> arrivalCountries = Arrays.asList(new ILinkedDataTerm[]{cruise.getArrivalHarbour()._getCountry().getTerm()});
+        List<ILinkedDataTerm> arrivalCountries = Arrays
+                .asList(new ILinkedDataTerm[] { cruise.getArrivalHarbour()._getCountry().getTerm() });
         MDKeywordsPropertyType kw4 = getAnchorKeyword(arrivalCountries, "arrival_country", THESAURUS_C32);
         if (kw4 != null) {
             sdnId.getDescriptiveKeywords().add(kw4);
         }
         //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(arrivalCountries, "arrival_country", THESAURUS_C32));
 
-        List<ILinkedDataTerm> platforms = Arrays.asList(new ILinkedDataTerm[]{cruise.getPlatform().getTerm()});
+        List<ILinkedDataTerm> platforms = Arrays.asList(new ILinkedDataTerm[] { cruise.getPlatform().getTerm() });
         //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platforms, "platform", THESAURUS_C17));
         MDKeywordsPropertyType kw5 = getAnchorKeyword(platforms, "platform", THESAURUS_C17);
         if (kw5 != null) {
             sdnId.getDescriptiveKeywords().add(kw5);
         }
 
-        List<ILinkedDataTerm> platformClasses = Arrays.asList(new ILinkedDataTerm[]{cruise.getPlatform().getPlatformClass()});
+        List<ILinkedDataTerm> platformClasses = Arrays
+                .asList(new ILinkedDataTerm[] { cruise.getPlatform().getPlatformClass() });
         //sdnId.getDescriptiveKeywordsSDN().add(getSDNKeyword(platformClasses, "platform_class", THESAURUS_L06));
         MDKeywordsPropertyType kw6 = getAnchorKeyword(platformClasses, "platform_class", THESAURUS_L06);
         if (kw6 != null) {
@@ -1376,7 +1438,8 @@ public class CSRBuilder {
 
         /*Dataset Constraints*/
         sdnId.getResourceConstraints().add(getUseLimitation("Not applicable"));
-        sdnId.getResourceConstraints().add(getAccessConstraint(license.getLicenseTerm().getIdentifier(), license.getLicenseTerm().getName()));
+        sdnId.getResourceConstraints()
+                .add(getAccessConstraint(license.getLicenseTerm().getIdentifier(), license.getLicenseTerm().getName()));
 
         /*Dataset Language*/
         LanguageCodePropertyType language = new LanguageCodePropertyType();
@@ -1446,14 +1509,16 @@ public class CSRBuilder {
         return decimalProp;
     }
 
-    private EXGeographicExtentPropertyType getGeographicExtent(double southBoundLatitude, double northBoundLatitude, double westBoundLongitude, double eastBoundLongitude) {
+    private EXGeographicExtentPropertyType getGeographicExtent(double southBoundLatitude, double northBoundLatitude,
+            double westBoundLongitude, double eastBoundLongitude) {
         EXGeographicExtentPropertyType geoExProp = new EXGeographicExtentPropertyType();
         EXGeographicBoundingBoxType bb = new EXGeographicBoundingBoxType();
         bb.setSouthBoundLatitude(getDecimal(southBoundLatitude));
         bb.setNorthBoundLatitude(getDecimal(northBoundLatitude));
         bb.setWestBoundLongitude(getDecimal(westBoundLongitude));
         bb.setEastBoundLongitude(getDecimal(eastBoundLongitude));
-        JAXBElement<EXGeographicBoundingBoxType> createAbstractEXGeographicExtent = gmd.createEXGeographicBoundingBox(bb);
+        JAXBElement<EXGeographicBoundingBoxType> createAbstractEXGeographicExtent = gmd
+                .createEXGeographicBoundingBox(bb);
         geoExProp.setAbstractEXGeographicExtent(createAbstractEXGeographicExtent);
         return geoExProp;
     }
@@ -1462,7 +1527,8 @@ public class CSRBuilder {
         if (trackList != null) {
             EXGeographicExtentPropertyType geoExProp = new EXGeographicExtentPropertyType();
             EXBoundingPolygonType track = gmd.createEXBoundingPolygonType();
-            JAXBElement<AbstractEXGeographicExtentType> abstractEXGeographicExtent = gmd.createAbstractEXGeographicExtent(track);
+            JAXBElement<AbstractEXGeographicExtentType> abstractEXGeographicExtent = gmd
+                    .createAbstractEXGeographicExtent(track);
             geoExProp.setAbstractEXGeographicExtent(abstractEXGeographicExtent);
             GMObjectPropertyType gm = gss.createGMObjectPropertyType();
             track.getPolygon().add(gm);
@@ -1516,7 +1582,8 @@ public class CSRBuilder {
         MDLegalConstraintsType constraints = new MDLegalConstraintsType();
         MDRestrictionCodePropertyType restrictionCode = new MDRestrictionCodePropertyType();
 
-        restrictionCode.setMDRestrictionCode(getCodeListValue(REALM_SDN_GMX, "MD_RestrictionCode", "otherRestrictions", "otherRestrictions"));
+        restrictionCode.setMDRestrictionCode(
+                getCodeListValue(REALM_SDN_GMX, "MD_RestrictionCode", "otherRestrictions", "otherRestrictions"));
         constraints.getAccessConstraints().add(restrictionCode);
         constraintsProp.setMDLegalConstraints(constraints);
         AnchorType anchor = new AnchorType();
@@ -1547,7 +1614,8 @@ public class CSRBuilder {
         citation.setTitle(getCS(this.cruise.getIdentifier()));
         citation.getAlternateTitle().add((getCS(this.cruise.getName())));
         citation.getIdentifier().add(getIdentifier(getCSRIdentifier()));
-        citation.getCitedResponsibleParty().add(getResponsibleParty(this.cruise.getPlatform().getVesselOperator(), Role.ORIGINATOR));
+        citation.getCitedResponsibleParty()
+                .add(getResponsibleParty(this.cruise.getPlatform().getVesselOperator(), Role.ORIGINATOR));
 
         citation.getDate().add(getDate(new Date(), Thesaurus.REVISION));
         return citationProp;

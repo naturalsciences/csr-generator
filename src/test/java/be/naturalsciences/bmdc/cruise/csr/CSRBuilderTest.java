@@ -44,7 +44,6 @@ public class CSRBuilderTest {
         c.setIdentifier(idWithBadChar);
         CSRBuilder b = new CSRBuilder(c, l, false);
         assertEquals("urn:SDN:CSR:LOCAL:" + expectedId, b.getCSRIdentifier());
-
     }
 
     /**
@@ -52,13 +51,8 @@ public class CSRBuilderTest {
      */
     @Test
     public void testGetIdentifier() throws IllegalCSRArgumentException {
-
-        System.out.println("getIdentifier");
-
         License l = new License(new LinkedDataTerm("http://www.seadatanet.org/urnurl/SDN:L08::LS", "SeaDataNet licence", "SDN:L08::LS"));
-
         Cruise c = CSRPrinterTest.generateANiceTestCruise();
-
         testIdentifier("BE11 2018_01", "BE11_2018_01", c, l);
         testIdentifier("BE11!2018_01", "BE11_2018_01", c, l);
         testIdentifier("BE112018_01", "BE112018_01", c, l);
